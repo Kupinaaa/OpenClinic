@@ -26,7 +26,7 @@ public class Patient
     public List<Race> Race { get; set; }
     public Gender Gender { get; set; }
 
-    Patient() {
+    public Patient() {
         Id = 0;
         Name = string.Empty;
         AdressLine1 = string.Empty;
