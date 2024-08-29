@@ -10,7 +10,7 @@ public class Physician
     public DateOnly GraduationDate;
     public List<string> Specializations;
 
-    Physician() {
+    public Physician() {
         Id = 0;
         Name = string.Empty;
         LisenceNumber = 0;
