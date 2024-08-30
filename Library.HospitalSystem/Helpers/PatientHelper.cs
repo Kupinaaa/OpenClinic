@@ -8,7 +8,7 @@ namespace Library.HospitalSystem.Helpers;
 public class PatientHelper
 {
     private PatientService patientService = PatientService.Current;
-    public void CreatePatient() // Get next ID from the service
+    public void CreatePatient(uint? Id = null) // Get next ID from the service
     {
         uint patientId = patientService.NextId; // Get next ID from the service
         string patientName, patientAdressLine;
@@ -122,15 +122,34 @@ public class PatientHelper
                 Console.WriteLine("Please use one character");
             }
         }
-        var patient = new Patient{
-            Id = patientId,
-            Name = patientName,
-            AdressLine = patientAdressLine,
-            DOB = patientDOB,
-            Race = patientRaces,
-            Gender = patientGender
-        };
-        patientService.AddPatient(patient);
+
+        if(Id == null) 
+        {
+            var patient = new Patient{
+                Id = patientId,
+                Name = patientName,
+                AdressLine = patientAdressLine,
+                DOB = patientDOB,
+                Race = patientRaces,
+                Gender = patientGender
+            };
+            patientService.AddPatient(patient);
+            Console.WriteLine(patient);
+        }
+        else
+        {
+            if (patientService.TryFindPatientByID(Id ?? 0, out Patient? patient)) 
+            {
+                patient.Id = patientId;
+                patient.Name = patientName;
+                patient.AdressLine = patientAdressLine;
+                patient.DOB = patientDOB;
+                patient.Race = patientRaces;
+                patient.Gender = patientGender;
+            }
+            Console.WriteLine(patient);
+        }
+
     }
 
     public void ListAllPatients() 
@@ -185,6 +204,26 @@ public class PatientHelper
         else 
         {
             Console.WriteLine("No patients were deleted.");
+        }
+    }
+
+    public void UpdatePatientById() {
+        uint Id;
+
+        do {
+            Console.WriteLine("Enter the id of the patient you would like to update:");
+        } while (!uint.TryParse(Console.ReadLine() ?? "0", out Id));
+
+        if (patientService.TryFindPatientByID(Id, out Patient? patient)) 
+        {
+            Console.WriteLine("The patient you are trying to change is:");
+            Console.WriteLine(patient);
+
+            CreatePatient(Id);
+        } 
+        else 
+        {
+            Console.WriteLine("Patient not found.");
         }
     }
 }
