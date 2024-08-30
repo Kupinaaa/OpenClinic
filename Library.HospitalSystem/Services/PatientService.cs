@@ -41,4 +41,10 @@ public class PatientService
     {
         patients.ForEach(Console.WriteLine);
     }
+
+    public bool TryFindPatientByID(uint id, out Patient? patient) {
+        patient = patients.FirstOrDefault(p => p.Id == id);
+        if (patient == null) return false;
+        else return true;
+    }
 }

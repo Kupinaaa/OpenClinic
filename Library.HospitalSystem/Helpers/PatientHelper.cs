@@ -125,6 +125,22 @@ public class PatientHelper
 
     public void ListAll() 
     {
+        Console.WriteLine("List of all patients:");
         patientService.ListAll();
+    }
+
+    public void DisplayPatientById() 
+    {
+        uint id;
+        do {
+            Console.WriteLine("Enter the id of your patient:");
+        } while (!uint.TryParse(Console.ReadLine(), out id));
+
+        if (patientService.TryFindPatientByID(id, out Patient? patient)) 
+        {
+            Console.WriteLine(patient);
+        } else {
+            Console.WriteLine("Patient not found!");
+        }
     }
 }

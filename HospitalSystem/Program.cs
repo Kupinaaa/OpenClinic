@@ -13,6 +13,7 @@ namespace App.HospitalSystem
             while (cont) {
                 Console.WriteLine("1. Add a patient");
                 Console.WriteLine("2. List all patients");
+                Console.WriteLine("3. Find patient by Id");
                 Console.WriteLine("Q. Quit ");
                 Console.WriteLine("Choose an option:");
 
@@ -23,8 +24,10 @@ namespace App.HospitalSystem
                         PatientHelper.CreatePatient();
                         break;
                     case "2":
-                        Console.WriteLine("List of all patients:");
                         PatientHelper.ListAll();
+                        break;
+                    case "3":
+                        PatientHelper.DisplayPatientById();
                         break;
                     case "q":
                     case "Q":
