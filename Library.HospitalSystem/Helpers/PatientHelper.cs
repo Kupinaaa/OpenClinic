@@ -75,8 +75,12 @@ public class PatientHelper
                             Console.WriteLine("Please use a specifide character for the race");
                             break;
                     }
-
-                    patientRaces.Add(addRace);
+                    if (patientRaces.Any(pr => pr == addRace)) {
+                        Console.WriteLine("You have already added this race to this user, please choose another.");
+                        numberOfRaces++;
+                    } else {
+                        patientRaces.Add(addRace);
+                    }
                 } else {
                     Console.WriteLine("Please use one character");
                 }
