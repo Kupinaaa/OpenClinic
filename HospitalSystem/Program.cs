@@ -15,8 +15,14 @@ namespace App.HospitalSystem
                 Console.WriteLine("2. List all patients");
                 Console.WriteLine("3. Find patient by Id");
                 Console.WriteLine("4. Search for patient");
-                Console.WriteLine("5. Delete Patient by Id");
-                Console.WriteLine("6. Update Patient by Id");
+                Console.WriteLine("5. Delete patient by Id");
+                Console.WriteLine("6. Update patient by Id");
+                Console.WriteLine("7. Add a physician");
+                Console.WriteLine("8. List all physicians");
+                Console.WriteLine("9. Find physician by Id");
+                Console.WriteLine("10. Search for physician");
+                Console.WriteLine("11. Delete physician by Id");
+                Console.WriteLine("12. Update physician by Id");
                 Console.WriteLine("Q. Quit ");
                 Console.WriteLine("Choose an option:");
 
