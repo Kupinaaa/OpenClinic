@@ -9,6 +9,7 @@ namespace App.HospitalSystem
         static void Main(string[] args)
         {
             var PatientHelper = new PatientHelper();
+            var PhysicianHelper = new PhysicianHelper();
             bool cont = true;
             while (cont) {
                 Console.WriteLine("1. Add a patient");
@@ -46,6 +47,24 @@ namespace App.HospitalSystem
                         break;
                     case "6":
                         PatientHelper.UpdatePatientById();
+                        break;
+                    case "7":
+                        PhysicianHelper.CreatePhysician();
+                        break;
+                    case "8":
+                        PhysicianHelper.ListAllPhysicians();
+                        break;
+                    case "9":
+                        PhysicianHelper.DisplayPhysicianById();
+                        break;
+                    case "10":
+                        PhysicianHelper.SearchPhysicianByQuery();
+                        break;
+                    case "11":
+                        PhysicianHelper.DeletePhysicianById();
+                        break;
+                    case "12":
+                        PhysicianHelper.UpdatePhysicianById();
                         break;
                     case "q":
                     case "Q":

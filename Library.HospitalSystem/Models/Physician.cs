@@ -8,15 +8,14 @@ public class Physician
     public string Name;
     public uint LisenceNumber;
     public DateOnly GraduationDate;
-    public List<string> Specializations;
+    public string Specializations;
 
     public Physician() {
         Id = 0;
         Name = string.Empty;
         LisenceNumber = 0;
         GraduationDate = DateOnly.MinValue;
-
-        Specializations = new List<string>();
+        Specializations = string.Empty;
     }
 
     public override string ToString()
