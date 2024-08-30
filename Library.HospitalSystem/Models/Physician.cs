@@ -18,4 +18,9 @@ public class Physician
 
         Specializations = new List<string>();
     }
+
+    public override string ToString()
+    {
+        return $"{Id} {Name} {LisenceNumber} {GraduationDate} {string.Join(", ", Specializations)}";
+    }
 }
