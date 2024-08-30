@@ -12,6 +12,7 @@ namespace App.HospitalSystem
             bool cont = true;
             while (cont) {
                 Console.WriteLine("1. Add a patient");
+                Console.WriteLine("2. List all patients");
                 Console.WriteLine("Q. Quit ");
                 Console.WriteLine("Choose an option:");
 
@@ -20,6 +21,10 @@ namespace App.HospitalSystem
                 switch(option) {
                     case "1":
                         PatientHelper.CreatePatient();
+                        break;
+                    case "2":
+                        Console.WriteLine("List of all patients:");
+                        PatientHelper.ListAll();
                         break;
                     case "q":
                     case "Q":
