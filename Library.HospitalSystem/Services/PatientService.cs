@@ -32,12 +32,12 @@ public class PatientService
         }   
     }
 
-    public void Add(Patient p) 
+    public void AddPatient(Patient p) 
     {
         patients.Add(p);
     }
 
-    public void ListAll() 
+    public void ListAllPatients() 
     {
         patients.ForEach(Console.WriteLine);
     }
@@ -45,6 +45,16 @@ public class PatientService
     public bool TryFindPatientByID(uint id, out Patient? patient) {
         patient = patients.FirstOrDefault(p => p.Id == id);
         if (patient == null) return false;
+        else return true;
+    }
+
+    public bool TryFindPatientByQuery(string query, out List<Patient>? foundPatients) {
+        foundPatients = patients.Where(p => p.Name.ToUpper().Contains(query.ToUpper()) |
+            p.DOB.ToString().Contains(query) || p.AdressLine.ToUpper().Contains(query.ToUpper()) ||
+            p.StringifyPatientsGender().ToUpper().Contains(query.ToUpper()) ||
+            p.StringifyPatientsRace().ToUpper().Contains(query.ToUpper())).ToList();
+
+        if (foundPatients == null) return false;
         else return true;
     }
 }

@@ -119,14 +119,13 @@ public class PatientHelper
             Race = patientRaces,
             Gender = patientGender
         };
-        patientService.Add(patient);
-        patientService.ListAll();
+        patientService.AddPatient(patient);
     }
 
-    public void ListAll() 
+    public void ListAllPatients() 
     {
         Console.WriteLine("List of all patients:");
-        patientService.ListAll();
+        patientService.ListAllPatients();
     }
 
     public void DisplayPatientById() 
@@ -141,6 +140,18 @@ public class PatientHelper
             Console.WriteLine(patient);
         } else {
             Console.WriteLine("Patient not found!");
+        }
+    }
+
+    public void SearchPatientByQuery() {
+        Console.WriteLine("Enter your search query:");
+        string query = Console.ReadLine() ?? "";
+
+        if(patientService.TryFindPatientByQuery(query, out List<Patient>? patients)) 
+        {
+            patients?.ForEach(Console.WriteLine);
+        } else {
+            Console.WriteLine("Patient not found");
         }
     }
 }
