@@ -75,13 +75,18 @@ public class PatientHelper
                             Console.WriteLine("Please use a specifide character for the race");
                             break;
                     }
+
                     if (patientRaces.Any(pr => pr == addRace)) {
                         Console.WriteLine("You have already added this race to this user, please choose another.");
                         numberOfRaces++;
-                    } else {
+                    } 
+                    else 
+                    {
                         patientRaces.Add(addRace);
                     }
-                } else {
+                } 
+                else 
+                {
                     Console.WriteLine("Please use one character");
                 }
             }
@@ -111,7 +116,9 @@ public class PatientHelper
                         patientGender = Gender.NotSpecified;
                         break;
                 }
-            } else {
+            } 
+            else 
+            {
                 Console.WriteLine("Please use one character");
             }
         }
@@ -142,7 +149,9 @@ public class PatientHelper
         if (patientService.TryFindPatientByID(id, out Patient? patient)) 
         {
             Console.WriteLine(patient);
-        } else {
+        } 
+        else 
+        {
             Console.WriteLine("Patient not found!");
         }
     }
@@ -154,8 +163,28 @@ public class PatientHelper
         if(patientService.TryFindPatientByQuery(query, out List<Patient>? patients)) 
         {
             patients?.ForEach(Console.WriteLine);
-        } else {
+        } 
+        else 
+        {
             Console.WriteLine("Patient not found");
+        }
+    }
+
+    public void DeletePatientById() {
+        uint Id;
+
+        do {
+            Console.WriteLine("Enter the id of the patient you would like to delete:");
+        } while (!uint.TryParse(Console.ReadLine() ?? "0", out Id));
+
+        if (patientService.TryDeletePatientById(Id, out List<Patient>? patients)) 
+        {
+            Console.WriteLine("Sucessfuly deleted patient:");
+            patients?.ForEach(Console.WriteLine);
+        } 
+        else 
+        {
+            Console.WriteLine("No patients were deleted.");
         }
     }
 }

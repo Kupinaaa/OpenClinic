@@ -15,6 +15,7 @@ namespace App.HospitalSystem
                 Console.WriteLine("2. List all patients");
                 Console.WriteLine("3. Find patient by Id");
                 Console.WriteLine("4. Search for patient");
+                Console.WriteLine("5. Delete Patient by Id");
                 Console.WriteLine("Q. Quit ");
                 Console.WriteLine("Choose an option:");
 
@@ -32,6 +33,9 @@ namespace App.HospitalSystem
                         break;
                     case "4":
                         PatientHelper.SearchPatientByQuery();
+                        break;
+                    case "5":
+                        PatientHelper.DeletePatientById();
                         break;
                     case "q":
                     case "Q":
