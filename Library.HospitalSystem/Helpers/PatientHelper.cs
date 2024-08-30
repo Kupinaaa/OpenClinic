@@ -122,4 +122,9 @@ public class PatientHelper
         patientService.Add(patient);
         patientService.ListAll();
     }
+
+    public void ListAll() 
+    {
+        patientService.ListAll();
+    }
 }
