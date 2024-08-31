@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Library.HospitalSystem;
 using Library.HospitalSystem.Helpers;
 
@@ -10,6 +10,7 @@ namespace App.HospitalSystem
         {
             var PatientHelper = new PatientHelper();
             var PhysicianHelper = new PhysicianHelper();
+            var AppointmentHelper = new AppointmentHelper();
             bool cont = true;
             while (cont) {
                 Console.WriteLine("1. Add a patient");
@@ -72,6 +73,34 @@ namespace App.HospitalSystem
                         break;
                     case "12":
                         PhysicianHelper.UpdatePhysicianById();
+                        break;
+                    case "a":
+                    case "A":
+                        AppointmentHelper.CreateAppointment();
+                        break;
+                    case "b":
+                    case "B":
+                        AppointmentHelper.ListAllAppointments();
+                        break;
+                    case "c":
+                    case "C":
+                        AppointmentHelper.DisplayAppointmentById();
+                        break;
+                    case "d":
+                    case "D":
+                        AppointmentHelper.DisplayAppointmentsByPatientId();
+                        break;
+                    case "e":
+                    case "E":
+                        AppointmentHelper.DisplayAppointmentsByPhysicianId();
+                        break;
+                    case "f":
+                    case "F":
+                        AppointmentHelper.UpdateAppointmentById();
+                        break;
+                    case "g":
+                    case "G":
+                        AppointmentHelper.DeleteAppointmentById();
                         break;
                     case "q":
                     case "Q":
