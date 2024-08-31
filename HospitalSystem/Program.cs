@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Library.HospitalSystem;
 using Library.HospitalSystem.Helpers;
 
@@ -24,6 +24,13 @@ namespace App.HospitalSystem
                 Console.WriteLine("10. Search for physician");
                 Console.WriteLine("11. Delete physician by Id");
                 Console.WriteLine("12. Update physician by Id");
+                Console.WriteLine("A. Create an appointment");
+                Console.WriteLine("B. List all appointments");
+                Console.WriteLine("C. Display appointment by Id");
+                Console.WriteLine("D. Display appointments by patient Id");
+                Console.WriteLine("E. Display appointments by physician Id");
+                Console.WriteLine("F. Update appointment by Id");
+                Console.WriteLine("G. Delete appointment by Id");
                 Console.WriteLine("Q. Quit ");
                 Console.WriteLine("Choose an option:");
 
