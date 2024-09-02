@@ -110,6 +110,7 @@ public class PatientHelper
                         patientGender = Gender.Female;
                         break;
                     case "O":
+                    case "o":
                         patientGender = Gender.Other;
                         break;
                     default:
