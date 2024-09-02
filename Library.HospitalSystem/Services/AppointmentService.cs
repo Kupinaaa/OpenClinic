@@ -39,9 +39,11 @@ public class AppointmentService
         bool startIsBeforeEnd = start < end;
         bool isInWorkingHours = start.Hour >= 8 && (end.Hour < 17 || (end.Hour == 17 && end.Minute == 0));
         bool isNotConflictingWithOtherPatientAppointmnets = !appointments.Any(a => a.PatientId == patientId && a.Id != updId &&
-        ((end >= a.DateTimeEnd && end <= a.DateTimeEnd) || // Check whether the end of the new appointment is inside of a different appointment's time range
+        ((end >= a.DateTimeStart && end <= a.DateTimeEnd) || // Check whether the end of the new appointment is inside of a different appointment's time range
         (start >= a.DateTimeStart && start <= a.DateTimeEnd) || // Check whether the start of the new appointment is inside of a different appiontment's time range
         (start <= a.DateTimeStart && end >= a.DateTimeEnd))); // Check whether there exist any appointments that would be inside of the new appointment's time range
+
+        Console.WriteLine(isNotConflictingWithOtherPatientAppointmnets);
 
         if(!isOnTheSameDate) message = "Not on the same date";
         if (!startIsBeforeEnd) message = "The start of the appointment is before it's end";
@@ -58,7 +60,7 @@ public class AppointmentService
         bool startIsBeforeEnd = start < end;
         bool isInWorkingHours = start.Hour >= 8 && (end.Hour < 17 || (end.Hour == 17 && end.Minute == 0));
         bool isNotConflictingWithOtherPhysicianAppointmnets = !appointments.Any(a => a.PhysicianId == physicianId && a.Id != updId &&
-        ((end >= a.DateTimeEnd && end <= a.DateTimeEnd) || // Check whether the end of the new appointment is inside of a different appointment's time range
+        ((end >= a.DateTimeStart && end <= a.DateTimeEnd) || // Check whether the end of the new appointment is inside of a different appointment's time range
         (start >= a.DateTimeStart && start <= a.DateTimeEnd) || // Check whether the start of the new appointment is inside of a different appiontment's time range
         (start <= a.DateTimeStart && end >= a.DateTimeEnd))); // Check whether there exist any appointments that would be inside of the new appointment's time range
 

@@ -57,20 +57,26 @@ public class AppointmentHelper
             }
             Console.WriteLine("Your inputed end date time is: " + end);
 
-            addAppointment.Id = AppointmentService.NextId;
-            addAppointment.PatientId = patientId;
-            addAppointment.PhysicianId = physicianId;
-            addAppointment.DateTimeStart = start;
-            addAppointment.DateTimeEnd = end;
+            string message;
+            bool updTimeCheck = appointmentService.PatientCheckAppointmentAvailability(patientId, start, end, out message, Id) && 
+            appointmentService.PhysicianCheckAppointmentAvailability(physicianId, start, end, out message, Id);
 
-            string message = "Updated";
-            if (foundId) 
+            if (foundId && updTimeCheck || !foundId) 
             {
-                cont = false;
-            }
-            else 
-            {
-                cont = !appointmentService.TryAddAppointment(addAppointment, out message, Id);
+                addAppointment.Id = Id ?? AppointmentService.NextId;
+                addAppointment.PatientId = patientId;
+                addAppointment.PhysicianId = physicianId;
+                addAppointment.DateTimeStart = start;
+                addAppointment.DateTimeEnd = end;
+
+                if (foundId) 
+                {
+                    cont = false;
+                }
+                else 
+                {
+                    cont = !appointmentService.TryAddAppointment(addAppointment, out message, Id);
+                }
             }
             Console.WriteLine(message);
         } while (cont);
