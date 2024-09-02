@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Library.HospitalSystem.Models;
 using Library.HospitalSystem.Services;
@@ -11,8 +12,15 @@ public class AppointmentHelper
     public void CreateAppointment(uint? Id = null) // Get next ID from the service
     {
         bool cont = true;
+        Appointment addAppointment = new Appointment();
+
+        bool foundId = false;
+        if (Id != null) 
+        {
+            foundId = appointmentService.TryFindAppointmentByID((uint)Id, out addAppointment);
+        }
+
         do {
-            Appointment addAppointment = new Appointment();
             uint patientId, physicianId;
 
             Console.WriteLine("Enter the title of your appointment:");
@@ -40,12 +48,14 @@ public class AppointmentHelper
             {
                 Console.WriteLine("Please try again and use the correct format for example MM/DD/YYYY HH:MM AM/PM");
             }
+            Console.WriteLine("Your inputed start date-time is: " + start);
 
             Console.WriteLine("Enter the end date-time of your appointment:");
             while (!DateTime.TryParse(Console.ReadLine() ?? "", new CultureInfo("en-US"), out end)) 
             {
                 Console.WriteLine("Please try again and use the correct format for example MM/DD/YYYY HH:MM AM/PM");
             }
+            Console.WriteLine("Your inputed end date time is: " + end);
 
             addAppointment.Id = AppointmentService.NextId;
             addAppointment.PatientId = patientId;
@@ -53,8 +63,15 @@ public class AppointmentHelper
             addAppointment.DateTimeStart = start;
             addAppointment.DateTimeEnd = end;
 
-            string message;
-            cont = !appointmentService.TryAddAppointment(addAppointment, out message, Id);
+            string message = "Updated";
+            if (foundId) 
+            {
+                cont = false;
+            }
+            else 
+            {
+                cont = !appointmentService.TryAddAppointment(addAppointment, out message, Id);
+            }
             Console.WriteLine(message);
         } while (cont);
     }
