@@ -1,6 +1,6 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 
-namespace Library.HospitalSystem.Models;
+namespace Api.HospitalSystem.Models;
 
 public enum Race {
     NotSpecified,
@@ -20,21 +20,15 @@ public enum Gender {
 }
 public class Patient
 {
-    public uint Id { get; set; }
-    public string Name { get; set; }
-    public string AdressLine { get; set; }
-    public DateOnly DOB { get; set; }
-    public List<Race> Race { get; set; }
-    public Gender Gender { get; set; }
+    public int Id { get; set; } = 0;
+    public string Name { get; set; } = string.Empty;
+    public string AdressLine { get; set; } = string.Empty;
+    public DateOnly DOB { get; set; } = DateOnly.MinValue;
+    public List<Race> Race { get; set; } = new List<Race> { Models.Race.NotSpecified };
+    public Gender Gender { get; set; } = Gender.NotSpecified;
+    public List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-    public Patient() {
-        Id = 0;
-        Name = string.Empty;
-        AdressLine = string.Empty;
-        DOB = DateOnly.MinValue;
-        Race = new List<Race> { HospitalSystem.Models.Race.NotSpecified };
-        Gender = Gender.NotSpecified;
-    }
+    // TODO: Add medical history, tests, etc.
 
     public override string ToString()
     {
