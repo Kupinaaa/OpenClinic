@@ -1,4 +1,5 @@
 using Api.HospitalSystem.Data;
+using Api.HospitalSystem.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace Api.HospitalSystem.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var patients = _context.Patients.ToList();
+            var patients = _context.Patients.Select(p => p.ToPatientDto()).ToList();
             return Ok(patients);
         }
 
@@ -26,7 +27,13 @@ namespace Api.HospitalSystem.Controllers
         {
             var patient = _context.Patients.Find(id);
             if (patient == null) return NotFound();
-            return Ok(patient);
+            return Ok(patient.ToPatientDto());
         }
+
+        // [HttpPost]
+        // public IActionResult AddPatient()
+        // {
+            
+        // }
     }
 }
