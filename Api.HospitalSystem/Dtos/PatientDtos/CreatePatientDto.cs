@@ -3,7 +3,7 @@ using Api.HospitalSystem.Enums;
 
 namespace Api.HospitalSystem.Dtos.PatientDtos;
 
-public class CreatePatientDto
+public class CreatePatientRequestDto
 {
     public string Name { get; set; } = string.Empty;
     public string AddressLine { get; set; } = string.Empty;
