@@ -33,4 +33,16 @@ public static class PatientMapper
             Race = new List<Race>(patientDto.Race)
         };
     }
+
+    public static Patient ToPatient(this UpdatePatientRequestDto patientDto)
+    {
+       return new Patient
+        {
+            Name = patientDto.Name,
+            AddressLine = patientDto.AddressLine,
+            DOB = patientDto.DOB,
+            Gender = patientDto.Gender,
+            Race = new List<Race>(patientDto.Race)
+        };;
+    }
 }
