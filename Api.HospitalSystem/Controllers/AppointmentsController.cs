@@ -1,4 +1,7 @@
 using Api.HospitalSystem.Data;
+using Api.HospitalSystem.Dtos;
+using Api.HospitalSystem.Dtos.PatientDtos;
+using Api.HospitalSystem.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

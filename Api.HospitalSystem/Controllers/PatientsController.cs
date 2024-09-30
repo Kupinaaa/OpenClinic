@@ -1,5 +1,7 @@
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Mappers;
+using Api.HospitalSystem.Dtos;
+using Api.HospitalSystem.Dtos.PatientDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,10 +32,13 @@ namespace Api.HospitalSystem.Controllers
             return Ok(patient.ToPatientDto());
         }
 
-        // [HttpPost]
-        // public IActionResult AddPatient()
-        // {
-            
-        // }
+        [HttpPost]
+        public IActionResult CreatePatient([FromBody] CreatePatientDto createPatientDto)
+        {
+            var createPatient = createPatientDto.ToPatient();
+            _context.Patients.Add(createPatient);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetById), new { id = createPatient.Id }, createPatient.ToPatientDto());
+        }
     }
 }
