@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Library.HospitalSystem\Library.HospitalSystem.csproj" />
+    <ProjectReference Include="../Library.HospitalSystem/Archive.Library.HospitalSystem.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
