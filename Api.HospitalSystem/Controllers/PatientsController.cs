@@ -5,6 +5,7 @@ using Api.HospitalSystem.Dtos.PatientDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Api.HospitalSystem.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.HospitalSystem.Controllers
 {
@@ -19,33 +20,34 @@ namespace Api.HospitalSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var patients = _context.Patients.Select(p => p.ToPatientDto()).ToList();
-            return Ok(patients);
+            var patients = await _context.Patients.ToListAsync();
+            var patientDtos = patients.Select(p => p.ToPatientDto());
+            return Ok(patientDtos);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var patient = _context.Patients.Find(id);
+            var patient = await _context.Patients.FindAsync(id);
             if (patient == null) return NotFound();
             return Ok(patient.ToPatientDto());
         }
 
         [HttpPost]
-        public IActionResult CreatePatient([FromBody] CreatePatientRequestDto createPatientDto)
+        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequestDto createPatientDto)
         {
             var createPatient = createPatientDto.ToPatient();
-            _context.Patients.Add(createPatient);
-            _context.SaveChanges();
+            await _context.Patients.AddAsync(createPatient);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = createPatient.Id }, createPatient.ToPatientDto());
         }
         
         [HttpPut("{id}")]
-        public IActionResult UpdatePatient([FromRoute] int id, [FromBody] UpdatePatientRequestDto updatePatientDto)
+        public async Task<IActionResult> UpdatePatient([FromRoute] int id, [FromBody] UpdatePatientRequestDto updatePatientDto)
         {
-            var updatePatient = _context.Patients.FirstOrDefault(p => p.Id == id);
+            var updatePatient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == id);
             if (updatePatient == null) return NotFound();
 
             updatePatient.Name = updatePatientDto.Name;
@@ -54,18 +56,18 @@ namespace Api.HospitalSystem.Controllers
             updatePatient.Gender = updatePatientDto.Gender;
             updatePatient.Race = updatePatientDto.Race;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(updatePatient.ToPatientDto());
         }
         
         [HttpDelete("{id}")]
-        public IActionResult DeletePatient([FromRoute] int id)
+        public async Task<IActionResult> DeletePatient([FromRoute] int id)
         {
-            var deletePatient = _context.Patients.FirstOrDefault(p => p.Id == id);
+            var deletePatient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == id);
             if (deletePatient == null) return NotFound();
             _context.Patients.Remove(deletePatient);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
