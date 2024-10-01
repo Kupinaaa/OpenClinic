@@ -65,6 +65,7 @@ namespace Api.HospitalSystem.Controllers
             var deletePatient = _context.Patients.FirstOrDefault(p => p.Id == id);
             if (deletePatient == null) return NotFound();
             _context.Patients.Remove(deletePatient);
+            _context.SaveChanges();
             return NoContent();
         }
     }
