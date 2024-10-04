@@ -26,13 +26,13 @@ public class PatientRepository : IPatientRepository
 
     public async Task<Patient?> DeleteAsync(int id)
     {
-        var patientModel = await GetByIdAsync(id);
-        if (patientModel == null) return null;
+        var patientToDelete = await GetByIdAsync(id);
+        if (patientToDelete == null) return null;
 
-        _context.Patients.Remove(patientModel);
+        _context.Patients.Remove(patientToDelete);
         await _context.SaveChangesAsync();
 
-        return patientModel;
+        return patientToDelete;
     }
 
     public async Task<List<Patient>> GetAllAsync()
