@@ -8,8 +8,8 @@ public interface IPatientRepository
 {
     Task<List<Patient>> GetAllAsync();
     Task<Patient?> GetByIdAsync(int id);
-    Task<Patient> CreateAsync(CreatePatientRequestDto patientDto);
-    Task<Patient?> UpdateAsync(int id, UpdatePatientRequestDto patientDto);
-    Task<Patient> DeleteAsync(int id);
+    Task<Patient> CreateAsync(Patient createPatient);
+    Task<Patient?> UpdateAsync(int id, UpdatePatientRequestDto updatePatient);
+    Task<Patient?> DeleteAsync(int id);
 
 }
