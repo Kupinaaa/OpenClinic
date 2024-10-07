@@ -21,12 +21,12 @@ public class AppointmentRepository : IAppointmentRepository
         return createAppointment;
     }
 
-    public Task<Appointment?> DeleteAsync(int id)
+    public async Task<Appointment?> DeleteAsync(int id)
     {
         var deleteAppointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
         if (deleteAppointment == null) return null;
 
-        await _context.Appointments.Remove(deleteAppointment);
+        _context.Appointments.Remove(deleteAppointment);
         return deleteAppointment;
     }
 
@@ -35,12 +35,13 @@ public class AppointmentRepository : IAppointmentRepository
         return await _context.Appointments.ToListAsync();
     }
 
-    public Task<Appointment?> GetByIdAsync(int id)
+    public async Task<Appointment?> GetByIdAsync(int id)
     {
         return await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    // public Task<Appointment?> UpdateAsync(int id)
-    // {
-    // }
+    public async Task<Appointment?> UpdateAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
