@@ -1,7 +1,10 @@
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Dtos;
+using Api.HospitalSystem.Dtos.AppointmentDtos;
 using Api.HospitalSystem.Dtos.PatientDtos;
+using Api.HospitalSystem.Interfaces;
 using Api.HospitalSystem.Mappers;
+using Api.HospitalSystem.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,25 +14,34 @@ namespace Api.HospitalSystem.Controllers
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public AppointmentsController(ApplicationDbContext context) 
+        private readonly IAppointmentRepository _repo;
+        public AppointmentsController(IAppointmentRepository repo) 
         {
-            _context = context;
+            _repo = repo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var appointments = _context.Appointments.ToList();
-            return Ok(appointments);
+            var appointments = await _repo.GetAllAsync();
+            var appointmentResponseDtos = appointments.Select(a => a.ToAppointmentResponseDto());
+
+            return Ok(appointmentResponseDtos);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AppointmentCreateRequestDto appointmentDto)
+        {
+            var createAppointment = appointmentDto.ToAppointment();
+
+            await _repo.CreateAsync(createAppointment);
+
+            return Ok(createAppointment.ToAppointmentResponseDto());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
-        {
-            var appointment =  _context.Appointments.Find(id);
-            if (appointment == null) return NotFound();
-            return Ok(appointment);
-        }
+        // [HttpGet("{id}")]
+        // public IActionResult GetById([FromRoute] int id)
+        // {
+        //     return NotFound();
+        // }
     }
 }
