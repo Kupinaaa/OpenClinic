@@ -40,8 +40,20 @@ public class AppointmentRepository : IAppointmentRepository
         return await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<Appointment?> UpdateAsync(int id)
+    public async Task<Appointment?> UpdateAsync(int id, Appointment updateBody)
     {
-        throw new NotImplementedException();
+        var updateAppointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
+        if (updateAppointment == null) return null;
+
+        updateAppointment.Title = updateBody.Title;
+        updateAppointment.DateTimeStart = updateBody.DateTimeStart;
+        updateAppointment.DateTimeEnd = updateBody.DateTimeEnd;
+        updateAppointment.Description = updateBody.Description;
+        updateAppointment.PatientId = updateBody.PatientId;
+        updateAppointment.PhysicianId = updateBody.PhysicianId;
+
+        await _context.SaveChangesAsync();
+
+        return updateAppointment;
     }
 }
