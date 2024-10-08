@@ -1,59 +1,60 @@
-using System;
 using Api.HospitalSystem.Dtos.PhysicianDtos;
 using Api.HospitalSystem.Interfaces;
+using Api.HospitalSystem.Mappers;
 using Api.HospitalSystem.Models;
 
 namespace Api.HospitalSystem.Services;
 
-public class PhysicianService : IPhysicianService
+public class PhysicianService: IPhysicianService
 {
-    public Task<Physician> CreateAsync(Physician createPhysician)
+    private readonly IPhysicianRepository _physicianRepository;
+    public PhysicianService(IPhysicianRepository physicianRepository)
     {
-        throw new NotImplementedException();
+        _physicianRepository = physicianRepository;
     }
 
-    public Task<PhysicianDto> CreateAsync(PhysicianCreateRequestDto createPhysician)
+    public async Task<PhysicianDto> CreateAsync(PhysicianCreateRequestDto createPhysicianDto)
     {
-        throw new NotImplementedException();
+        Physician createPhysician = createPhysicianDto.ToPhysician();
+        createPhysician = await _physicianRepository.CreateAsync(createPhysician);
+        PhysicianDto createdPhysicianDto = createPhysician.ToPhysicianDto();
+
+        return createdPhysicianDto;
     }
 
-    public Task<Physician?> DeleteAsync(int id)
+    public async Task<PhysicianDto?> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        Physician? deletedPhysician = await _physicianRepository.DeleteAsync(id);
+        if (deletedPhysician == null) return null;
+        PhysicianDto deletedPhysicianDto = deletedPhysician.ToPhysicianDto();
+        
+        return deletedPhysicianDto;
     }
 
-    public Task<List<Physician>> GetAllAsync()
+    public async Task<List<PhysicianDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        List<Physician> physicians = await _physicianRepository.GetAllAsync();
+        List<PhysicianDto> physicianDtos = physicians.Select(p => p.ToPhysicianDto()).ToList();
+
+        return physicianDtos;
     }
 
-    public Task<Physician?> GetByIdAsync(int id)
+    public async Task<PhysicianDto?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Physician? physician = await _physicianRepository.GetByIdAsync(id);
+        if (physician == null) return null;
+        PhysicianDto physicianDto = physician.ToPhysicianDto();
+
+        return physicianDto;
     }
 
-    public Task<Physician?> UpdateAsync(int id, Physician updatePhysician)
+    public async Task<PhysicianDto?> UpdateAsync(int id, PhysicianUpdateRequestDto updatePhysicianDto)
     {
-        throw new NotImplementedException();
-    }
+        Physician? updatePhysician = updatePhysicianDto.ToPhysician();
+        updatePhysician = await _physicianRepository.UpdateAsync(id, updatePhysician);
+        if (updatePhysician == null) return null;
+        PhysicianDto updatedPhysicianDto = updatePhysician.ToPhysicianDto();
 
-    public Task<PhysicianDto?> UpdateAsync(int id, PhysicianUpdateRequestDto updatePhysicianDto)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<PhysicianDto?> IPhysicianService.DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<List<PhysicianDto>> IPhysicianService.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<PhysicianDto?> IPhysicianService.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
+        return updatedPhysicianDto;
     }
 }
