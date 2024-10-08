@@ -6,9 +6,9 @@ namespace Api.HospitalSystem.Interfaces;
 
 public interface IPhysicianService
 {
-    Task<List<Physician>> GetAllAsync();
-    Task<Physician?> GetByIdAsync(int id);
-    Task<Physician> CreateAsync(Physician createPhysician);
-    Task<Physician?> UpdateAsync(int id, Physician updatePhysician);
-    Task<Physician?> DeleteAsync(int id);
+    Task<List<PhysicianDto>> GetAllAsync();
+    Task<PhysicianDto?> GetByIdAsync(int id);
+    Task<PhysicianDto> CreateAsync(PhysicianCreateRequestDto createPhysician);
+    Task<PhysicianDto?> UpdateAsync(int id, PhysicianUpdateRequestDto updatePhysicianDto);
+    Task<PhysicianDto?> DeleteAsync(int id);
 }

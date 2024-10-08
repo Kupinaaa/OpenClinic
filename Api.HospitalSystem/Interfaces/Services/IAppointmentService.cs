@@ -1,13 +1,14 @@
 using System;
+using Api.HospitalSystem.Dtos.AppointmentDtos;
 using Api.HospitalSystem.Models;
 
 namespace Api.HospitalSystem.Interfaces;
 
 public interface IAppointmentService
 {
-    Task<List<Appointment>> GetAllAppointments();
-    Task<Appointment?> GetAppointmentById(int id);
-    Task<Appointment> CreateAppointment(Appointment createAppointment);
-    Task<Appointment?> UpdateAppointment(int id, Appointment updateAppointment);
-    Task<Appointment?> DeleteAppointment(int id);
+    Task<List<AppointmentDto>> GetAllAppointments();
+    Task<AppointmentDto?> GetAppointmentById(int id);
+    Task<AppointmentDto> CreateAppointment(AppointmentCreateRequestDto createAppointment);
+    Task<AppointmentDto?> UpdateAppointment(int id, AppointmentUpdateRequestDto updateAppointment);
+    Task<AppointmentDto?> DeleteAppointment(int id);
 }
