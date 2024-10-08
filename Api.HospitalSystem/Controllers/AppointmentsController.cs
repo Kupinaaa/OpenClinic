@@ -12,36 +12,36 @@ namespace Api.HospitalSystem.Controllers
 {
     [Route("api/appointment")]
     [ApiController]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentsController: ControllerBase
     {
-        private readonly IAppointmentRepository _repo;
-        public AppointmentsController(IAppointmentRepository repo) 
-        {
-            _repo = repo;
-        }
+    //     private readonly IAppointmentRepository _repo;
+    //     public AppointmentsController(IAppointmentRepository repo) 
+    //     {
+    //         _repo = repo;
+    //     }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var appointments = await _repo.GetAllAsync();
-            var appointmentResponseDtos = appointments.Select(a => a.ToAppointmentResponseDto());
+    //     [HttpGet]
+    //     public async Task<IActionResult> GetAll()
+    //     {
+    //         var appointments = await _repo.GetAllAsync();
+    //         var appointmentResponseDtos = appointments.Select(a => a.ToAppointmentResponseDto());
 
-            return Ok(appointmentResponseDtos);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AppointmentCreateRequestDto appointmentDto)
-        {
-            var createAppointment = appointmentDto.ToAppointment();
+    //         return Ok(appointmentResponseDtos);
+    //     }
+    //     [HttpPost]
+    //     public async Task<IActionResult> Create([FromBody] AppointmentCreateRequestDto appointmentDto)
+    //     {
+    //         var createAppointment = appointmentDto.ToAppointment();
 
-            await _repo.CreateAsync(createAppointment);
+    //         await _repo.CreateAsync(createAppointment);
 
-            return Ok(createAppointment.ToAppointmentResponseDto());
-        }
+    //         return Ok(createAppointment.ToAppointmentResponseDto());
+    //     }
 
-        // [HttpGet("{id}")]
-        // public IActionResult GetById([FromRoute] int id)
-        // {
-        //     return NotFound();
-        // }
+    //     // [HttpGet("{id}")]
+    //     // public IActionResult GetById([FromRoute] int id)
+    //     // {
+    //     //     return NotFound();
+    //     // }
     }
 }

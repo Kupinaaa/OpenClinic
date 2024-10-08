@@ -1,4 +1,3 @@
-using System;
 using Api.HospitalSystem.Dtos.PhysicianDtos;
 using Api.HospitalSystem.Models;
 
@@ -18,7 +17,7 @@ public static class PhysicianMapper
         };
     }
 
-    public static Physician ToPhysician(this UpdatePhysicianRequestDto physicianDto)
+    public static Physician ToPhysician(this PhysicianUpdateRequestDto physicianDto)
     {
         return new Physician
         {
@@ -29,7 +28,7 @@ public static class PhysicianMapper
         };
     }
 
-    public static Physician ToPhysician(this CreatePhysicianRequestDto physicianDto)
+    public static Physician ToPhysician(this PhysicianCreateRequestDto physicianDto)
     {
         return new Physician
         {

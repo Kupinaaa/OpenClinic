@@ -1,14 +1,11 @@
-using System;
 using Api.HospitalSystem.Data;
-using Api.HospitalSystem.Dtos.PhysicianDtos;
 using Api.HospitalSystem.Interfaces;
 using Api.HospitalSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Api.HospitalSystem.Repositories;
 
-public class PhysicianRepository : IPhysicianRepository
+public class PhysicianRepository: IPhysicianRepository
 {
     private readonly ApplicationDbContext _context;
     public PhysicianRepository(ApplicationDbContext context)
@@ -45,15 +42,15 @@ public class PhysicianRepository : IPhysicianRepository
         return await _context.Physicians.FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<Physician?> UpdateAsync(int id, UpdatePhysicianRequestDto updatePhysicianDto)
+    public async Task<Physician?> UpdateAsync(int id, Physician updatePhysician)
     {
-        var updatePhysician = await _context.Physicians.FirstOrDefaultAsync(p => p.Id == id);
-        if (updatePhysician == null) return null;
+        var updatePhysicianDb = await _context.Physicians.FirstOrDefaultAsync(p => p.Id == id);
+        if (updatePhysicianDb == null) return null;
 
-        updatePhysician.Name = updatePhysicianDto.Name;
-        updatePhysician.GraduationDate = updatePhysicianDto.GraduationDate;
-        updatePhysician.LisenceNumber = updatePhysicianDto.LisenceNumber;
-        updatePhysician.Specializations = updatePhysicianDto.Specializations;
+        updatePhysicianDb.Name = updatePhysician.Name;
+        updatePhysicianDb.GraduationDate = updatePhysician.GraduationDate;
+        updatePhysicianDb.LisenceNumber = updatePhysician.LisenceNumber;
+        updatePhysicianDb.Specializations = updatePhysician.Specializations;
 
         await _context.SaveChangesAsync();
         

@@ -9,7 +9,7 @@ public interface IPatientRepository
     Task<List<Patient>> GetAllAsync();
     Task<Patient?> GetByIdAsync(int id);
     Task<Patient> CreateAsync(Patient createPatient);
-    Task<Patient?> UpdateAsync(int id, UpdatePatientRequestDto updatePatient);
+    Task<Patient?> UpdateAsync(int id, Patient updatePatient);
     Task<Patient?> DeleteAsync(int id);
 
 }

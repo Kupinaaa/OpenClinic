@@ -2,7 +2,7 @@ using System;
 
 namespace Api.HospitalSystem.Dtos.AppointmentDtos;
 
-public class AppointmentResponseDto
+public class AppointmentDto
 {
     public int Id { get; set; } = 0;
     public string Title { get; set; } = string.Empty;

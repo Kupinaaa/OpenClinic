@@ -6,9 +6,9 @@ namespace Api.HospitalSystem.Mappers;
 
 public static class AppointmentMapper
 {
-    public static AppointmentResponseDto ToAppointmentResponseDto(this Appointment appointment)
+    public static AppointmentDto ToAppointmentDto(this Appointment appointment)
     {
-        return new AppointmentResponseDto
+        return new AppointmentDto
         {
             Id = appointment.Id,
             Title = appointment.Title,
@@ -21,6 +21,19 @@ public static class AppointmentMapper
     }
 
     public static Appointment ToAppointment(this AppointmentCreateRequestDto appointmentDto)
+    {
+        return new Appointment
+        {
+            Title = appointmentDto.Title,
+            DateTimeStart = appointmentDto.DateTimeStart,
+            DateTimeEnd = appointmentDto.DateTimeEnd,
+            Description = appointmentDto.Description,
+            PatientId = appointmentDto.PatientId,
+            PhysicianId = appointmentDto.PhysicianId
+        };
+    }
+
+    public static Appointment ToAppointment(this AppointmentUpdateRequestDto appointmentDto)
     {
         return new Appointment
         {
