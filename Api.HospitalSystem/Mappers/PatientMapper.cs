@@ -22,7 +22,7 @@ public static class PatientMapper
         };
     }
 
-    public static Patient ToPatient(this CreatePatientRequestDto patientDto)
+    public static Patient ToPatient(this PatientCreateRequestDto patientDto)
     {
         return new Patient
         {
@@ -34,7 +34,7 @@ public static class PatientMapper
         };
     }
 
-    public static Patient ToPatient(this UpdatePatientRequestDto patientDto)
+    public static Patient ToPatient(this PatientUpdateRequestDto patientDto)
     {
        return new Patient
         {

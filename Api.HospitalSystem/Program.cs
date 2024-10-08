@@ -1,6 +1,7 @@
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Interfaces;
 using Api.HospitalSystem.Repositories;
+using Api.HospitalSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPhysicianRepository, PhysicianRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
+// builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+// builder.Services.AddScoped<IPhysicianService, PhysicianService>();
 
 var app = builder.Build();
 

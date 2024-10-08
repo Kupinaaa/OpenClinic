@@ -16,18 +16,17 @@ namespace Api.HospitalSystem.Controllers
     public class PatientsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPatientRepository _repo;
-        public PatientsController(IPatientRepository repository, ApplicationDbContext context)
+        private readonly IPatientService _patientService;
+        public PatientsController(IPatientService patientService, ApplicationDbContext context)
         {
-            _repo = repository;
+            _patientService = patientService;
             _context = context;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var patients = await _repo.GetAllAsync();
-            var patientDtos = patients.Select(p => p.ToPatientDto());
+            var patientDtos = await _patientService.GetAllPatients();
 
             return Ok(patientDtos);
         }
@@ -35,34 +34,33 @@ namespace Api.HospitalSystem.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var patient = await _repo.GetByIdAsync(id);
-            if (patient == null) return NotFound();
+            var patientDto = await _patientService.GetPatientById(id);
 
-            return Ok(patient.ToPatientDto());
+            if (patientDto == null) return NotFound();
+            return Ok(patientDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequestDto createPatientDto)
+        public async Task<IActionResult> CreatePatient([FromBody] PatientCreateRequestDto createPatientDto)
         {
-            var createPatient = createPatientDto.ToPatient();
-            await _repo.CreateAsync(createPatient);
+            PatientDto createdPatientDto = await _patientService.CreatePatient(createPatientDto);
 
-            return CreatedAtAction(nameof(GetById), new { id = createPatient.Id }, createPatient.ToPatientDto());
+            return CreatedAtAction(nameof(GetById), new { id = createdPatientDto.Id }, createdPatientDto);
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePatient([FromRoute] int id, [FromBody] UpdatePatientRequestDto updatePatientDto)
+        public async Task<IActionResult> UpdatePatient([FromRoute] int id, [FromBody] PatientUpdateRequestDto updatePatientDto)
         {
-            var updatePatient = await _repo.UpdateAsync(id, updatePatientDto);
-            if (updatePatient == null) return NotFound();
+            PatientDto? updatedPatientDto = await _patientService.UpdatePatient(id, updatePatientDto);
 
-            return Ok(updatePatient.ToPatientDto());
+            if (updatedPatientDto == null) return NotFound();
+            return Ok(updatedPatientDto);
         }
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePatient([FromRoute] int id)
         {
-            var deletePatient = await _repo.DeleteAsync(id);
+            var deletePatient = await _patientService.DeletePatient(id);
 
             if (deletePatient == null) return NotFound();
             return NoContent();

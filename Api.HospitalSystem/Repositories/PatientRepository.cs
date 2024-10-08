@@ -26,7 +26,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<Patient?> DeleteAsync(int id)
     {
-        var patientToDelete = await GetByIdAsync(id);
+        Patient? patientToDelete = await _context.Patients.FirstOrDefaultAsync(p => p.Id == id);
         if (patientToDelete == null) return null;
 
         _context.Patients.Remove(patientToDelete);
@@ -45,7 +45,7 @@ public class PatientRepository : IPatientRepository
         return await _context.Patients.FirstOrDefaultAsync(p => id == p.Id);
     }
 
-    public async Task<Patient?> UpdateAsync(int id, UpdatePatientRequestDto updatePatient)
+    public async Task<Patient?> UpdateAsync(int id, Patient updatePatient)
     {
         var patientModel = await GetByIdAsync(id);
         if (patientModel == null) return null;
