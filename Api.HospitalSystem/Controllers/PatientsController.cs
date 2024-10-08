@@ -1,12 +1,7 @@
 using Api.HospitalSystem.Data;
-using Api.HospitalSystem.Mappers;
 using Api.HospitalSystem.Dtos;
 using Api.HospitalSystem.Dtos.PatientDtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Api.HospitalSystem.Enums;
-using Microsoft.EntityFrameworkCore;
-using Api.HospitalSystem.Repositories;
 using Api.HospitalSystem.Interfaces;
 
 namespace Api.HospitalSystem.Controllers
