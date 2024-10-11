@@ -14,34 +14,51 @@ namespace Api.HospitalSystem.Controllers
     [ApiController]
     public class AppointmentsController: ControllerBase
     {
-    //     private readonly IAppointmentRepository _repo;
-    //     public AppointmentsController(IAppointmentRepository repo) 
-    //     {
-    //         _repo = repo;
-    //     }
+        private readonly IAppointmentService _appointmentService;
+        public AppointmentsController(IAppointmentService appointmentService) 
+        {
+            _appointmentService = appointmentService;
+        }
 
-    //     [HttpGet]
-    //     public async Task<IActionResult> GetAll()
-    //     {
-    //         var appointments = await _repo.GetAllAsync();
-    //         var appointmentResponseDtos = appointments.Select(a => a.ToAppointmentResponseDto());
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            List<AppointmentDto> appointmentDtos = await _appointmentService.GetAllAppointments();
+            return Ok(appointmentDtos);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AppointmentCreateRequestDto appointmentDto)
+        {
+            AppointmentDto? createdAppointment = await _appointmentService.CreateAppointment(appointmentDto);
+            if (createdAppointment == null) return BadRequest();
 
-    //         return Ok(appointmentResponseDtos);
-    //     }
-    //     [HttpPost]
-    //     public async Task<IActionResult> Create([FromBody] AppointmentCreateRequestDto appointmentDto)
-    //     {
-    //         var createAppointment = appointmentDto.ToAppointment();
+            return CreatedAtAction(nameof(GetById), new {id = createdAppointment.Id}, createdAppointment);
+        }
 
-    //         await _repo.CreateAsync(createAppointment);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            AppointmentDto? appointmentDto = await _appointmentService.GetAppointmentById(id);
+            if (appointmentDto == null) return NotFound();
+            return Ok(appointmentDto);
+        }
 
-    //         return Ok(createAppointment.ToAppointmentResponseDto());
-    //     }
-
-    //     // [HttpGet("{id}")]
-    //     // public IActionResult GetById([FromRoute] int id)
-    //     // {
-    //     //     return NotFound();
-    //     // }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            AppointmentDto? deletedAppointemntDto = await _appointmentService.DeleteAppointment(id);
+            if(deletedAppointemntDto == null) return NotFound();
+            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AppointmentUpdateRequestDto updateRequestDto)
+        {
+            AppointmentDto? updatedAppointment = await _appointmentService.UpdateAppointment(id, updateRequestDto);
+            if (updatedAppointment == null) return NotFound();
+            return Ok(updatedAppointment);
+        }
+        // [HttpGet("/patient/{id}")]
+        // [HttpGet("/physician/{id}")]
+        // [HttpGet("/availability/physician/{id}")] // DateOnly day in body
     }
 }

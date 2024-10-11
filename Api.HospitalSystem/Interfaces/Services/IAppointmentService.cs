@@ -8,7 +8,8 @@ public interface IAppointmentService
 {
     Task<List<AppointmentDto>> GetAllAppointments();
     Task<AppointmentDto?> GetAppointmentById(int id);
-    Task<AppointmentDto> CreateAppointment(AppointmentCreateRequestDto createAppointment);
+    Task<AppointmentDto?> CreateAppointment(AppointmentCreateRequestDto createAppointment);
     Task<AppointmentDto?> UpdateAppointment(int id, AppointmentUpdateRequestDto updateAppointment);
     Task<AppointmentDto?> DeleteAppointment(int id);
+    Task<bool> CheckAppointmentTime(Appointment appointemnt, int? updateAppointmentId);
 }

@@ -13,7 +13,7 @@ public class AppointmentRepository : IAppointmentRepository
     {
         _context = context;
     }
-    public async Task<Appointment> CreateAsync(Appointment createAppointment)
+    public async Task<Appointment> Create(Appointment createAppointment)
     {
         await _context.Appointments.AddAsync(createAppointment);
         await _context.SaveChangesAsync();
@@ -21,26 +21,34 @@ public class AppointmentRepository : IAppointmentRepository
         return createAppointment;
     }
 
-    public async Task<Appointment?> DeleteAsync(int id)
+    public async Task<Appointment?> Delete(int id)
     {
         var deleteAppointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
         if (deleteAppointment == null) return null;
 
         _context.Appointments.Remove(deleteAppointment);
+        await _context.SaveChangesAsync();
+
         return deleteAppointment;
     }
 
-    public async Task<List<Appointment>> GetAllAsync()
+    public async Task<List<Appointment>> GetAll()
     {
         return await _context.Appointments.ToListAsync();
     }
 
-    public async Task<Appointment?> GetByIdAsync(int id)
+    public async Task<Appointment?> GetById(int id)
     {
         return await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<Appointment?> UpdateAsync(int id, Appointment updateBody)
+    public async Task<List<Appointment>> GetByPatientOrPhysicianId(int patientId, int physicianId)
+    {
+        var appointments = _context.Appointments.Where(a => a.PatientId == patientId || a.PhysicianId == physicianId);
+        return await appointments.ToListAsync();
+    }
+
+    public async Task<Appointment?> Update(int id, Appointment updateBody)
     {
         var updateAppointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
         if (updateAppointment == null) return null;
