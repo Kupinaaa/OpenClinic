@@ -63,7 +63,12 @@ namespace Api.HospitalSystem.Controllers
             List<AppointmentDto> physicianAppointmentDtos = await _appointmentService.GetPhysicianAppointments(physicianId);
             return Ok(physicianAppointmentDtos);
         }
-        // [HttpGet("patient/{id}")]
+        [HttpGet("patient/{patientId}")]
+        public async Task<IActionResult> GetPatientAppointments([FromRoute] int patientId)
+        {
+            List<AppointmentDto> patientAppointmentDtos = await _appointmentService.GetPatientAppointments(patientId);
+            return Ok(patientAppointmentDtos);
+        }
         // [HttpGet("upcoming/physician/{id}")]
         // [HttpGet("upcoming/physician/{id}")]
         // [HttpGet("availability/physician/{id}")] // DateOnly day in body

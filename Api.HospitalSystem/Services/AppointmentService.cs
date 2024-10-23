@@ -109,4 +109,11 @@ public class AppointmentService : IAppointmentService
         List<AppointmentDto> physicianAppointmentDtos = physicianAppointments.Select(a => a.ToAppointmentDto()).ToList();
         return physicianAppointmentDtos;
     }
+
+    public async Task<List<AppointmentDto>> GetPatientAppointments(int patientId)
+    {
+        List<Appointment> patientAppointments = await _appointmentRepository.GetByPatientOrPhysicianId(patientId, null);
+        List<AppointmentDto> patientAppointmentDtos = patientAppointments.Select(a => a.ToAppointmentDto()).ToList();
+        return patientAppointmentDtos;
+    }
 }
