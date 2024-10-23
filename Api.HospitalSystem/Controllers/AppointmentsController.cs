@@ -57,8 +57,15 @@ namespace Api.HospitalSystem.Controllers
             if (updatedAppointment == null) return NotFound();
             return Ok(updatedAppointment);
         }
-        // [HttpGet("/patient/{id}")]
-        // [HttpGet("/physician/{id}")]
-        // [HttpGet("/availability/physician/{id}")] // DateOnly day in body
+        [HttpGet("physician/{physicianId}")]
+        public async Task<IActionResult> GetPhysicianAppointments([FromRoute] int physicianId)
+        {
+            List<AppointmentDto> physicianAppointmentDtos = await _appointmentService.GetPhysicianAppointments(physicianId);
+            return Ok(physicianAppointmentDtos);
+        }
+        // [HttpGet("patient/{id}")]
+        // [HttpGet("upcoming/physician/{id}")]
+        // [HttpGet("upcoming/physician/{id}")]
+        // [HttpGet("availability/physician/{id}")] // DateOnly day in body
     }
 }

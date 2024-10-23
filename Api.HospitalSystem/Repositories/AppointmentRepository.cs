@@ -42,7 +42,7 @@ public class AppointmentRepository : IAppointmentRepository
         return await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<List<Appointment>> GetByPatientOrPhysicianId(int patientId, int physicianId)
+    public async Task<List<Appointment>> GetByPatientOrPhysicianId(int? patientId, int? physicianId)
     {
         var appointments = _context.Appointments.Where(a => a.PatientId == patientId || a.PhysicianId == physicianId);
         return await appointments.ToListAsync();

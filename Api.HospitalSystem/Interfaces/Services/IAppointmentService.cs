@@ -12,4 +12,5 @@ public interface IAppointmentService
     Task<AppointmentDto?> UpdateAppointment(int id, AppointmentUpdateRequestDto updateAppointment);
     Task<AppointmentDto?> DeleteAppointment(int id);
     Task<bool> CheckAppointmentTime(Appointment appointemnt, int? updateAppointmentId);
+    Task<List<AppointmentDto>> GetPhysicianAppointments(int physicianId);
 }
