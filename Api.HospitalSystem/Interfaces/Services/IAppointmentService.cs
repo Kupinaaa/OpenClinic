@@ -14,4 +14,6 @@ public interface IAppointmentService
     Task<bool> CheckAppointmentTime(Appointment appointemnt, int? updateAppointmentId);
     Task<List<AppointmentDto>> GetPhysicianAppointments(int physicianId);
     Task<List<AppointmentDto>> GetPatientAppointments(int patientId);
+    Task<List<AppointmentDto>> GetUpcomingPhysicianAppointments(int physicianId, DateTime now);
+    Task<List<AppointmentDto>> GetUpcomingPatientAppointments(int patientId, DateTime now);
 }

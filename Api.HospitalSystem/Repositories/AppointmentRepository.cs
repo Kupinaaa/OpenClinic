@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.HospitalSystem.Repositories;
 
-public class AppointmentRepository : IAppointmentRepository
+public class AppointmentRepository: IAppointmentRepository
 {
     private readonly ApplicationDbContext _context;
     public AppointmentRepository(ApplicationDbContext context)
@@ -42,9 +42,33 @@ public class AppointmentRepository : IAppointmentRepository
         return await _context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<List<Appointment>> GetByPatientOrPhysicianId(int? patientId, int? physicianId)
+    public async Task<List<Appointment>> GetByPatientAndPhysicianId(int patientId, int physicianId)
     {
         var appointments = _context.Appointments.Where(a => a.PatientId == patientId || a.PhysicianId == physicianId);
+        return await appointments.ToListAsync();
+    }
+
+    public async Task<List<Appointment>> GetByPatientId(int patientId)
+    {
+        var appointments = _context.Appointments.Where(a => a.PatientId == patientId);
+        return await appointments.ToListAsync();
+    }
+
+    public async Task<List<Appointment>> GetByPhysicianId(int physicianId)
+    {
+        var appointments = _context.Appointments.Where(a => a.PhysicianId == physicianId);
+        return await appointments.ToListAsync();
+    }
+
+    public async Task<List<Appointment>> GetUpcomingByPatientId(int patientId, DateTime now)
+    {
+       var appointments = _context.Appointments.Where(a => a.PatientId == patientId && a.DateTimeEnd >= now);
+        return await appointments.ToListAsync();
+    }
+
+    public async Task<List<Appointment>> GetUpcomingByPhysicianId(int physicianId, DateTime now)
+    {
+        var appointments = _context.Appointments.Where(a => a.PhysicianId == physicianId && a.DateTimeEnd >= now);
         return await appointments.ToListAsync();
     }
 

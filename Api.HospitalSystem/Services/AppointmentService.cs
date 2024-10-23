@@ -35,7 +35,7 @@ public class AppointmentService : IAppointmentService
         if (appointment.DateTimeStart.TimeOfDay < new TimeSpan(8, 0, 0) || appointment.DateTimeEnd.TimeOfDay > new TimeSpan(17, 0, 0)) return false; // Not in working hours, make variables
 
 
-        List<Appointment> patientPhysicianAppointments = await _appointmentRepository.GetByPatientOrPhysicianId(appointment.PatientId, appointment.PhysicianId);
+        List<Appointment> patientPhysicianAppointments = await _appointmentRepository.GetByPatientAndPhysicianId(appointment.PatientId, appointment.PhysicianId);
 
         bool appointmentOverlaps = patientPhysicianAppointments.Any(checkAppointment => checkAppointment.Id != updateAppiontmentId && 
         ((checkAppointment.DateTimeStart <= appointment.DateTimeStart && appointment.DateTimeStart <= checkAppointment.DateTimeEnd) ||
@@ -105,15 +105,28 @@ public class AppointmentService : IAppointmentService
 
     public async Task<List<AppointmentDto>> GetPhysicianAppointments(int physicianId)
     {
-        List<Appointment> physicianAppointments = await _appointmentRepository.GetByPatientOrPhysicianId(null, physicianId);
+        List<Appointment> physicianAppointments = await _appointmentRepository.GetByPhysicianId(physicianId);
         List<AppointmentDto> physicianAppointmentDtos = physicianAppointments.Select(a => a.ToAppointmentDto()).ToList();
         return physicianAppointmentDtos;
     }
 
     public async Task<List<AppointmentDto>> GetPatientAppointments(int patientId)
     {
-        List<Appointment> patientAppointments = await _appointmentRepository.GetByPatientOrPhysicianId(patientId, null);
+        List<Appointment> patientAppointments = await _appointmentRepository.GetByPatientId(patientId);
         List<AppointmentDto> patientAppointmentDtos = patientAppointments.Select(a => a.ToAppointmentDto()).ToList();
         return patientAppointmentDtos;
     }
+
+    public async Task<List<AppointmentDto>> GetUpcomingPhysicianAppointments(int physicianId, DateTime now)
+    {
+        List<Appointment> physicianAppointments = await _appointmentRepository.GetUpcomingByPhysicianId(physicianId, now);
+        List<AppointmentDto> physicanAppointmentDtos = physicianAppointments.Select(a => a.ToAppointmentDto()).ToList();
+        return physicanAppointmentDtos;
+    }
+    public async Task<List<AppointmentDto>> GetUpcomingPatientAppointments(int patientId, DateTime now)
+    {
+        List<Appointment> patientAppointments = await _appointmentRepository.GetUpcomingByPatientId(patientId, now);
+        List<AppointmentDto> patientAppointmentDtos = patientAppointments.Select(a => a.ToAppointmentDto()).ToList();
+        return patientAppointmentDtos;
+    } 
 }

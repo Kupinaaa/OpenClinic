@@ -69,8 +69,18 @@ namespace Api.HospitalSystem.Controllers
             List<AppointmentDto> patientAppointmentDtos = await _appointmentService.GetPatientAppointments(patientId);
             return Ok(patientAppointmentDtos);
         }
-        // [HttpGet("upcoming/physician/{id}")]
-        // [HttpGet("upcoming/physician/{id}")]
-        // [HttpGet("availability/physician/{id}")] // DateOnly day in body
+        [HttpGet("upcoming/physician/{physicianId}")]
+        public async Task<IActionResult> GetUpcomingPhysicianAppointments([FromRoute] int physicianId, [FromQuery] DateTime now)
+        {
+            List<AppointmentDto> physicianAppointemntDtos = await _appointmentService.GetUpcomingPhysicianAppointments(physicianId, now);
+            return Ok(physicianAppointemntDtos);
+        }
+        [HttpGet("upcoming/patient/{patientId}")]
+        public async Task<IActionResult> GetUpcomingPatientAppointments([FromRoute] int patientId, [FromQuery] DateTime now)
+        {
+            List <AppointmentDto> patientAppointmentDtos = await _appointmentService.GetUpcomingPatientAppointments(patientId, now);
+            return Ok(patientAppointmentDtos);
+        }
+        // [HttpGet("availability/physician/{id}")]
     }
 }
