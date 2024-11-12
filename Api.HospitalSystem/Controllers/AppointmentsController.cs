@@ -81,6 +81,5 @@ namespace Api.HospitalSystem.Controllers
             List <AppointmentDto> patientAppointmentDtos = await _appointmentService.GetUpcomingPatientAppointments(patientId, now);
             return Ok(patientAppointmentDtos);
         }
-        // [HttpGet("availability/physician/{id}")]
     }
 }

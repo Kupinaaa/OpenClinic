@@ -1,5 +1,6 @@
 using System;
 using Api.HospitalSystem.Data;
+using Api.HospitalSystem.Dtos.AppointmentDtos;
 using Api.HospitalSystem.Interfaces;
 using Api.HospitalSystem.Models;
 using Microsoft.EntityFrameworkCore;
