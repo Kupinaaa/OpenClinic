@@ -1,7 +1,9 @@
 import React from "react";
 
-function AdminPatients() {
-    return <div>Admin</div>;
+async function AdminPatients() {
+    const data = await fetch("http://localhost:5222/api/patient");
+    const patients = await data.json();
+    return <div>{JSON.stringify(patients)}</div>;
 }
 
 export default AdminPatients;
