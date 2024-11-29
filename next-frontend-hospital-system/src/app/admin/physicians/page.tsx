@@ -1,7 +1,60 @@
 import React from "react";
+import { PhysicianDto } from "@/types/api/physician";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
-function AdminPatients() {
-    return <div>Admin</div>;
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+
+async function PhysiciansTable() {
+    const data = await fetch("http://localhost:5222/api/physician");
+    const physicians = (await data.json()) as PhysicianDto[];
+    // console.log(patients);
+
+    const physicianComponents = physicians.map((physician) => (
+        <TableRow key={physician.id}>
+            <TableCell>{physician.id}</TableCell>
+            <TableCell>{physician.name}</TableCell>
+            <TableCell>{physician.lisenceNumber}</TableCell>
+            <TableCell>{physician.graduationDate}</TableCell>
+            <TableCell>{physician.specializations}</TableCell>
+            <TableCell>
+                <Link
+                    href={`admin/patients/${physician.id}`}
+                    className={buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                    })}
+                >
+                    Open
+                </Link>
+            </TableCell>
+        </TableRow>
+    ));
+
+    return (
+        <Table>
+            <TableCaption>Appointments</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className="w-[100px]">Id</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Lisence #</TableHead>
+                    <TableHead>Graduation</TableHead>
+                    <TableHead>Specializations</TableHead>
+                    <TableHead></TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>{physicianComponents}</TableBody>
+        </Table>
+    );
 }
 
-export default AdminPatients;
+export default PhysiciansTable;
