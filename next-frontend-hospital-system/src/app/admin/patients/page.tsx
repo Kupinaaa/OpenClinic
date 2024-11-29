@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
-async function AdminPatients() {
+async function PatientsTable() {
     const data = await fetch("http://localhost:5222/api/patient");
     const patients = (await data.json()) as PatientDTO[];
     // console.log(patients);
@@ -47,7 +47,7 @@ async function AdminPatients() {
                 <TableRow>
                     <TableHead className="w-[100px]">Id</TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Adress</TableHead>
+                    <TableHead>Address</TableHead>
                     <TableHead className="w-32">DOB</TableHead>
                     <TableHead className="w-12">Gender</TableHead>
                     <TableHead>Race</TableHead>
@@ -59,4 +59,4 @@ async function AdminPatients() {
     );
 }
 
-export default AdminPatients;
+export default PatientsTable;
