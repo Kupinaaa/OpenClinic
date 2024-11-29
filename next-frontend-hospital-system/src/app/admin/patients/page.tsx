@@ -9,36 +9,62 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 async function AdminPatients() {
     const data = await fetch("http://localhost:5222/api/patient");
     const patients = (await data.json()) as PatientDTO[];
     // console.log(patients);
+
     const patientComponents = patients.map((patient) => (
-        <TableRow key={patient.id}>
-            <TableCell>{patient.id}</TableCell>
-            <TableCell>{patient.name}</TableCell>
-            <TableCell>{patient.addressLine}</TableCell>
-            <TableCell>{patient.dob}</TableCell>
-            <TableCell>{patient.gender}</TableCell>
-            <TableCell>{patient.race}</TableCell>
-        </TableRow>
+        <Tooltip key={patient.id}>
+            <TableRow>
+                <TableCell>{patient.id}</TableCell>
+                <TableCell>{patient.name}</TableCell>
+                <TableCell>{patient.addressLine}</TableCell>
+                <TableCell>{patient.dob}</TableCell>
+                <TableCell>{patient.gender}</TableCell>
+                <TableCell>{patient.race}</TableCell>
+                <TableCell>
+                    <Link
+                        href={`admin/patients/${patient.id}`}
+                        className={buttonVariants({
+                            variant: "outline",
+                            size: "sm",
+                        })}
+                    >
+                        Open
+                    </Link>
+                </TableCell>
+            </TableRow>
+        </Tooltip>
     ));
+
     return (
-        <Table>
-            <TableCaption>Patients</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Id</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Adress</TableHead>
-                    <TableHead>DOB</TableHead>
-                    <TableHead>Gender</TableHead>
-                    <TableHead>Race</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>{patientComponents}</TableBody>
-        </Table>
+        <TooltipProvider>
+            <Table>
+                <TableCaption>Patients</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Id</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Adress</TableHead>
+                        <TableHead className="w-32">DOB</TableHead>
+                        <TableHead className="w-12">Gender</TableHead>
+                        <TableHead>Race</TableHead>
+                        <TableHead className="w-[100px]"></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>{patientComponents}</TableBody>
+            </Table>
+        </TooltipProvider>
     );
 }
 
