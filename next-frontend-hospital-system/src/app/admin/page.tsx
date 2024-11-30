@@ -11,19 +11,19 @@ function AdminMainPage() {
                         href={"admin/appointments"}
                         className={buttonVariants({ variant: "default" })}
                     >
-                        Appointments Management
+                        Appointment Management
                     </Link>
                     <Link
                         href={"admin/patients"}
                         className={buttonVariants({ variant: "default" })}
                     >
-                        Patients Management
+                        Patient Management
                     </Link>
                     <Link
                         href={"admin/physicians"}
                         className={buttonVariants({ variant: "default" })}
                     >
-                        Physicians Management
+                        Physician Management
                     </Link>
                 </div>
             </div>
