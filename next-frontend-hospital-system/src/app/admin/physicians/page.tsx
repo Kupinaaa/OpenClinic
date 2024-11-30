@@ -12,6 +12,7 @@ import {
 
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 async function PhysiciansTable() {
     const data = await fetch("http://localhost:5222/api/physician");
@@ -27,13 +28,13 @@ async function PhysiciansTable() {
             <TableCell>{physician.specializations}</TableCell>
             <TableCell>
                 <Link
-                    href={`admin/patients/${physician.id}`}
+                    href={`physicians/${physician.id}`}
                     className={buttonVariants({
-                        variant: "outline",
+                        variant: "ghost",
                         size: "sm",
                     })}
                 >
-                    Open
+                    <ExternalLink />
                 </Link>
             </TableCell>
         </TableRow>
