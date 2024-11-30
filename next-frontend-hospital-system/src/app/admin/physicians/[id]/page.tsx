@@ -20,7 +20,7 @@ async function displayPhysician({
             </h1>
             <div className="w-full lg:w-1/2 grid gap-4 pt-4 py-2">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Lisence:</p>
+                    <p className="text-gray-400">License:</p>
                     <p className="col-span-3">{physicianDto.lisenceNumber}</p>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
