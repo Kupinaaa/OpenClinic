@@ -12,7 +12,7 @@ public class PatientHelper
     {
         uint patientId = patientService.NextId; // Get next ID from the service
         string patientName, patientAdressLine;
-        DateOnly patientDOB;
+        DateTime patientDOB;
         var patientRaces = new List<Race>();
         Gender patientGender = Gender.NotSpecified;
 
@@ -23,7 +23,7 @@ public class PatientHelper
         patientAdressLine = Console.ReadLine() ?? "";
 
         Console.WriteLine("Input your patients DOB:");
-        while (!DateOnly.TryParse(Console.ReadLine(), new CultureInfo("en-US"), out patientDOB)) 
+        while (!DateTime.TryParse(Console.ReadLine(), new CultureInfo("en-US"), out patientDOB)) 
         {
             Console.WriteLine("Please try again. Input a correctly formated string:");
         }

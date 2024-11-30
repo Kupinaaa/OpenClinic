@@ -12,5 +12,5 @@ public interface IPatientService
     Task<PatientDto> CreatePatient(PatientCreateRequestDto patientCreateDto);
     Task<PatientDto?> UpdatePatient(int id, PatientUpdateRequestDto patientUpdateDto);
     Task<PatientDto?> DeletePatient(int id);
-    Task<List<DateTime>> TimeSlots(int id, DateOnly date);
+    Task<List<DateTime>> TimeSlots(int id, DateTime date);
 }

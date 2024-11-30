@@ -12,7 +12,7 @@ public class PhysicianHelper
     {
         uint PhysicianId = PhysicianService.NextId; // Get next ID from the service
         string PhysicianName, PhysicianSpecializations;
-        DateOnly PhysicianDateOfGraduation;
+        DateTime PhysicianDateOfGraduation;
 
         Console.WriteLine("Input the physician's name:");
         PhysicianName = Console.ReadLine() ?? "John Doe";
@@ -23,7 +23,7 @@ public class PhysicianHelper
         } while (!uint.TryParse(Console.ReadLine(), out PhysicianLisenceNumber));
 
         Console.WriteLine("Input your Physicians date of graduation:");
-        while (!DateOnly.TryParse(Console.ReadLine(), new CultureInfo("en-US"), out PhysicianDateOfGraduation)) 
+        while (!DateTime.TryParse(Console.ReadLine(), new CultureInfo("en-US"), out PhysicianDateOfGraduation)) 
         {
             Console.WriteLine("Please try again. Input a correctly formated string:");
         }

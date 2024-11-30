@@ -51,7 +51,7 @@ public class PatientService: IPatientService
         return patientDto;
     }
 
-    public Task<List<DateTime>> TimeSlots(int id, DateOnly date)
+    public Task<List<DateTime>> TimeSlots(int id, DateTime date)
     {
         throw new NotImplementedException();
     }
