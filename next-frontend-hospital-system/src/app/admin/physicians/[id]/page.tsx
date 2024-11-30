@@ -18,18 +18,18 @@ async function displayPhysician({
                     #{physicianDto.id}
                 </span>
             </h1>
-            <div className="w-full lg:w-1/2 grid gap-4 pt-4 py-2">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">License:</p>
-                    <p className="col-span-3">{physicianDto.lisenceNumber}</p>
+            <div className="w-full grid gap-4 py-4">
+                <div className="flex">
+                    <p className="text-gray-400 w-36">License:</p>
+                    <p className="">{physicianDto.lisenceNumber}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Specializations:</p>
-                    <p className="col-span-3">{physicianDto.specializations}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Specializations:</p>
+                    <p className="">{physicianDto.specializations}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Graduation:</p>
-                    <p className="col-span-3">{physicianDto.graduationDate}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Graduation:</p>
+                    <p className="">{physicianDto.graduationDate}</p>
                 </div>
             </div>
         </div>

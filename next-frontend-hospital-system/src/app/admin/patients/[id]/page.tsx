@@ -14,22 +14,22 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
                     #{patientDto.id}
                 </span>
             </h1>
-            <div className="w-full lg:w-1/2 grid gap-4 pt-4 py-2">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Address:</p>
-                    <p className="col-span-3">{patientDto.addressLine}</p>
+            <div className="w-full grid gap-4 pt-4 py-2">
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Address:</p>
+                    <p className="">{patientDto.addressLine}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Date of birth:</p>
-                    <p className="col-span-3">{patientDto.dob}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Date of birth:</p>
+                    <p className="">{patientDto.dob}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Gender:</p>
-                    <p className="col-span-3">{patientDto.gender}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Gender:</p>
+                    <p className="">{patientDto.gender}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Race(s):</p>
-                    <p className="col-span-3">{patientDto.race}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Race(s):</p>
+                    <p className="">{patientDto.race}</p>
                 </div>
             </div>
         </div>

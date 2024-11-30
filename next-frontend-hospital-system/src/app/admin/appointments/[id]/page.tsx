@@ -19,25 +19,25 @@ async function displayAppointment({
                 </span>
             </h1>
             <div className="w-full lg:w-1/2 grid gap-4 pt-4 py-2">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Description:</p>
-                    <p className="col-span-3">{appointmentDto.description}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Description:</p>
+                    <p className="">{appointmentDto.description}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Start:</p>
-                    <p className="col-span-3">{appointmentDto.dateTimeStart}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Start:</p>
+                    <p className="">{appointmentDto.dateTimeStart}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">End:</p>
-                    <p className="col-span-3">{appointmentDto.dateTimeEnd}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">End:</p>
+                    <p className="">{appointmentDto.dateTimeEnd}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Patient Id:</p>
-                    <p className="col-span-3">{appointmentDto.patientId}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Patient Id:</p>
+                    <p className="">{appointmentDto.patientId}</p>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <p className="text-gray-400">Physician Id:</p>
-                    <p className="col-span-3">{appointmentDto.physicianId}</p>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Physician Id:</p>
+                    <p className="">{appointmentDto.physicianId}</p>
                 </div>
             </div>
         </div>
