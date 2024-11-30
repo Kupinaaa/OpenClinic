@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 async function PhysiciansTable() {
     const data = await fetch("http://localhost:5222/api/physician");
@@ -41,20 +42,31 @@ async function PhysiciansTable() {
     ));
 
     return (
-        <Table>
-            <TableCaption>Appointments</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Id</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Lisence #</TableHead>
-                    <TableHead>Graduation</TableHead>
-                    <TableHead>Specializations</TableHead>
-                    <TableHead></TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>{physicianComponents}</TableBody>
-        </Table>
+        <div>
+            <Table>
+                {/* <TableCaption>Appointments</TableCaption> */}
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Id</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Lisence #</TableHead>
+                        <TableHead>Graduation</TableHead>
+                        <TableHead>Specializations</TableHead>
+                        <TableHead></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>{physicianComponents}</TableBody>
+            </Table>
+            <Link
+                className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "float-right m-4"
+                )}
+                href="physicians/create"
+            >
+                New Physician
+            </Link>
+        </div>
     );
 }
 
