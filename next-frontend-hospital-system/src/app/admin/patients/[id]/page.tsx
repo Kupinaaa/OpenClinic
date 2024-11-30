@@ -14,7 +14,7 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
                     #{patientDto.id}
                 </span>
             </h1>
-            <div className="w-full md:w-1/3 grid gap-4 pt-4 py-2">
+            <div className="w-full lg:w-1/2 grid gap-4 pt-4 py-2">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <p className="text-gray-400">Address:</p>
                     <p className="col-span-3">{patientDto.addressLine}</p>
