@@ -31,7 +31,7 @@ async function PatientsTable() {
                 <Link
                     href={`patients/${patient.id}`}
                     className={buttonVariants({
-                        variant: "outline",
+                        variant: "ghost",
                         size: "sm",
                     })}
                 >

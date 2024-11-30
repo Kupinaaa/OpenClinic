@@ -32,7 +32,7 @@ async function AppointmentsTable() {
                 <Link
                     href={`appointments/${appointment.id}`}
                     className={buttonVariants({
-                        variant: "outline",
+                        variant: "ghost",
                         size: "sm",
                     })}
                 >
