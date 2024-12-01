@@ -29,7 +29,11 @@ async function displayPhysician({
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Graduation:</p>
-                    <p className="">{physicianDto.graduationDate}</p>
+                    <p className="">
+                        {new Date(
+                            physicianDto.graduationDate
+                        ).toLocaleDateString()}
+                    </p>
                 </div>
             </div>
         </div>

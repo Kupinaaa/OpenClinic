@@ -1,4 +1,4 @@
-import { PatientDTO } from "@/types/api/patient";
+import { convertGender, convertRace, PatientDTO } from "@/types/api/patient";
 import React from "react";
 
 async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
@@ -21,15 +21,19 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Date of birth:</p>
-                    <p className="">{patientDto.dob}</p>
+                    <p className="">
+                        {new Date(patientDto.dob).toLocaleDateString()}
+                    </p>
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Gender:</p>
-                    <p className="">{patientDto.gender}</p>
+                    <p className="">{convertGender(patientDto.gender)}</p>
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Race(s):</p>
-                    <p className="">{patientDto.race}</p>
+                    <p className="">
+                        {patientDto.race.map(convertRace).join(", ")}
+                    </p>
                 </div>
             </div>
         </div>

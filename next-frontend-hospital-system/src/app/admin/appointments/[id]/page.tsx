@@ -25,11 +25,17 @@ async function displayAppointment({
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Start:</p>
-                    <p className="">{appointmentDto.dateTimeStart}</p>
+                    <p className="">
+                        {new Date(
+                            appointmentDto.dateTimeStart
+                        ).toLocaleString()}
+                    </p>
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">End:</p>
-                    <p className="">{appointmentDto.dateTimeEnd}</p>
+                    <p className="">
+                        {new Date(appointmentDto.dateTimeEnd).toLocaleString()}
+                    </p>
                 </div>
                 <div className="flex">
                     <p className="text-gray-400 w-36">Patient Id:</p>

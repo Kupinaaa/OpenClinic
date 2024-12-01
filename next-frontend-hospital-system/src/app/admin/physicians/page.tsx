@@ -25,7 +25,9 @@ async function PhysiciansTable() {
             <TableCell>{physician.id}</TableCell>
             <TableCell>{physician.name}</TableCell>
             <TableCell>{physician.lisenceNumber}</TableCell>
-            <TableCell>{physician.graduationDate}</TableCell>
+            <TableCell>
+                {new Date(physician.graduationDate).toLocaleDateString()}
+            </TableCell>
             <TableCell>{physician.specializations}</TableCell>
             <TableCell>
                 <Link

@@ -24,8 +24,12 @@ async function AppointmentsTable() {
             <TableCell>{appointment.id}</TableCell>
             <TableCell>{appointment.title}</TableCell>
             <TableCell>{appointment.description}</TableCell>
-            <TableCell>{appointment.dateTimeStart}</TableCell>
-            <TableCell>{appointment.dateTimeEnd}</TableCell>
+            <TableCell>
+                {new Date(appointment.dateTimeStart).toLocaleString()}
+            </TableCell>
+            <TableCell>
+                {new Date(appointment.dateTimeEnd).toLocaleString()}
+            </TableCell>
             <TableCell>{appointment.patientId}</TableCell>
             <TableCell>{appointment.physicianId}</TableCell>
             <TableCell>

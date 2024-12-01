@@ -25,7 +25,7 @@ async function PatientsTable() {
             <TableCell>{patient.id}</TableCell>
             <TableCell>{patient.name}</TableCell>
             <TableCell>{patient.addressLine}</TableCell>
-            <TableCell>{patient.dob}</TableCell>
+            <TableCell>{new Date(patient.dob).toLocaleDateString()}</TableCell>
             <TableCell>{convertGender(patient.gender)}</TableCell>
             <TableCell>{patient.race.map(convertRace).join(", ")}</TableCell>
             <TableCell>
