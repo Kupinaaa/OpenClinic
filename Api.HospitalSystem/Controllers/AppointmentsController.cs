@@ -2,6 +2,7 @@ using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Dtos;
 using Api.HospitalSystem.Dtos.AppointmentDtos;
 using Api.HospitalSystem.Dtos.PatientDtos;
+using Api.HospitalSystem.Dtos.PhysicianDtos;
 using Api.HospitalSystem.Interfaces;
 using Api.HospitalSystem.Mappers;
 using Api.HospitalSystem.Models;
@@ -78,8 +79,15 @@ namespace Api.HospitalSystem.Controllers
         [HttpGet("upcoming/patient/{patientId}")]
         public async Task<IActionResult> GetUpcomingPatientAppointments([FromRoute] int patientId, [FromQuery] DateTime now)
         {
-            List <AppointmentDto> patientAppointmentDtos = await _appointmentService.GetUpcomingPatientAppointments(patientId, now);
+            List<AppointmentDto> patientAppointmentDtos = await _appointmentService.GetUpcomingPatientAppointments(patientId, now);
             return Ok(patientAppointmentDtos);
+        }
+
+        [HttpGet("availability/{physicianId}")]
+        public async Task<IActionResult> GetPhysicianAvailability([FromRoute] int physicianId, [FromQuery] DateTime day)
+        {
+            List<DateTime> physicianAvailability = await _appointmentService.GetPhysicianAvailability(physicianId, day);
+            return Ok(physicianAvailability);
         }
     }
 }

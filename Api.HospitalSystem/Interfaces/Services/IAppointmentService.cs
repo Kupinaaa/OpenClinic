@@ -16,4 +16,5 @@ public interface IAppointmentService
     Task<List<AppointmentDto>> GetPatientAppointments(int patientId);
     Task<List<AppointmentDto>> GetUpcomingPhysicianAppointments(int physicianId, DateTime now);
     Task<List<AppointmentDto>> GetUpcomingPatientAppointments(int patientId, DateTime now);
+    Task<List<DateTime>> GetPhysicianAvailability(int physicianId, DateTime day);
 }

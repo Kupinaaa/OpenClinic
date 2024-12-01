@@ -15,6 +15,8 @@ public class AppointmentService : IAppointmentService
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IPatientService _patientService;
     private readonly IPhysicianService _physicianService;
+    private readonly TimeSpan START_TIME = new TimeSpan(8, 0, 0);
+    private readonly TimeSpan END_TIME = new TimeSpan(17, 0, 0);
     public AppointmentService(IAppointmentRepository appointmentRepository, IPatientService patientService, IPhysicianService physicianService)
     {
         _appointmentRepository = appointmentRepository;
@@ -32,7 +34,7 @@ public class AppointmentService : IAppointmentService
         if (appointment.DateTimeStart.Date != appointment.DateTimeEnd.Date) return false; // Not on the same day
         if (appointment.DateTimeStart.DayOfWeek > DayOfWeek.Friday) return false; // Not M through F
         if (appointment.DateTimeStart >= appointment.DateTimeEnd) return false; // Start is after End
-        if (appointment.DateTimeStart.TimeOfDay < new TimeSpan(8, 0, 0) || appointment.DateTimeEnd.TimeOfDay > new TimeSpan(17, 0, 0)) return false; // Not in working hours, make variables
+        if (appointment.DateTimeStart.TimeOfDay < START_TIME || appointment.DateTimeEnd.TimeOfDay > END_TIME) return false; // Not in working hours, make variables
 
 
         List<Appointment> patientPhysicianAppointments = await _appointmentRepository.GetByPatientAndPhysicianId(appointment.PatientId, appointment.PhysicianId);
@@ -129,4 +131,33 @@ public class AppointmentService : IAppointmentService
         List<AppointmentDto> patientAppointmentDtos = patientAppointments.Select(a => a.ToAppointmentDto()).ToList();
         return patientAppointmentDtos;
     } 
+
+    public async Task<List<DateTime>> GetPhysicianAvailability(int physicianId, DateTime day)
+    {
+        List<Appointment> physicianAppointments = await _appointmentRepository.GetUpcomingByPhysicianId(physicianId, day);
+        List<TimeSpan> physicianAvailabilityTimeSpans = new List<TimeSpan>();
+        List<DateTime> physicianAvailability = new List<DateTime>();
+
+        TimeSpan iteratorTime = new TimeSpan(day.Hour, day.Minute >= 30 ? 30 : 0, 0);
+        TimeSpan stepTime = new TimeSpan(0, 30, 0);
+
+        for (; iteratorTime < END_TIME; iteratorTime = iteratorTime.Add(stepTime))
+        {
+            physicianAvailabilityTimeSpans.Add(iteratorTime);
+        }
+
+        physicianAppointments.ForEach(appointment => {
+            for (iteratorTime = new TimeSpan(appointment.DateTimeStart.Hour, appointment.DateTimeStart.Minute >= 30 ? 30 : 0, 0); iteratorTime <= appointment.DateTimeEnd.TimeOfDay; iteratorTime = iteratorTime.Add(stepTime))
+            {
+                physicianAvailabilityTimeSpans.Remove(iteratorTime);
+            }
+        });
+
+        physicianAvailabilityTimeSpans.ForEach(timeSpan => {
+            day = day.Date + timeSpan;
+            physicianAvailability.Add(day);
+        });
+
+        return physicianAvailability;
+    }
 }
