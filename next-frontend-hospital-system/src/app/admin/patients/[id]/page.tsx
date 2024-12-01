@@ -1,9 +1,13 @@
 import { convertGender, convertRace, PatientDTO } from "@/types/api/patient";
 import React from "react";
+import DeleteAppointmentButton from "../../appointments/[id]/deleteAppointment";
+import DeletePatientButton from "./deletePatientButton";
+import { notFound } from "next/navigation";
 
 async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
     const id = (await params).id;
     const data = await fetch(`http://localhost:5222/api/patient/${id}`);
+    if (!data.ok) notFound();
     const patientDto = (await data.json()) as PatientDTO;
     return (
         <div className="h-full w-full p-20">
@@ -35,6 +39,9 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
                         {patientDto.race.map(convertRace).join(", ")}
                     </p>
                 </div>
+            </div>
+            <div className="flex gap-2 mt-8">
+                <DeletePatientButton id={id} />
             </div>
         </div>
     );

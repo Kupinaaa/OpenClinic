@@ -1,5 +1,9 @@
+import { Button } from "@/components/ui/button";
 import { AppointmentDto } from "@/types/api/appointment";
+import Link from "next/link";
 import React from "react";
+import DeleteAppointmentButton from "./deleteAppointment";
+import { notFound } from "next/navigation";
 
 async function displayAppointment({
     params,
@@ -8,6 +12,7 @@ async function displayAppointment({
 }) {
     const id = (await params).id;
     const data = await fetch(`http://localhost:5222/api/appointment/${id}`);
+    if (!data.ok) notFound();
     const appointmentDto = (await data.json()) as AppointmentDto;
     return (
         <div className="h-full w-full p-20">
@@ -45,6 +50,9 @@ async function displayAppointment({
                     <p className="text-gray-400 w-36">Physician Id:</p>
                     <p className="">{appointmentDto.physicianId}</p>
                 </div>
+            </div>
+            <div className="flex gap-2 mt-8">
+                <DeleteAppointmentButton id={id} />
             </div>
         </div>
     );
