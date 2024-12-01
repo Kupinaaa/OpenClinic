@@ -1,5 +1,5 @@
 import React from "react";
-import { PatientDTO } from "@/types/api/patient";
+import { convertGender, convertRace, PatientDTO } from "@/types/api/patient";
 import {
     Table,
     TableBody,
@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 async function PatientsTable() {
     const data = await fetch("http://localhost:5222/api/patient");
@@ -25,8 +26,8 @@ async function PatientsTable() {
             <TableCell>{patient.name}</TableCell>
             <TableCell>{patient.addressLine}</TableCell>
             <TableCell>{patient.dob}</TableCell>
-            <TableCell>{patient.gender}</TableCell>
-            <TableCell>{patient.race}</TableCell>
+            <TableCell>{convertGender(patient.gender)}</TableCell>
+            <TableCell>{patient.race.map(convertRace).join(", ")}</TableCell>
             <TableCell>
                 <Link
                     href={`patients/${patient.id}`}
@@ -42,21 +43,29 @@ async function PatientsTable() {
     ));
 
     return (
-        <Table>
-            <TableCaption>Patients</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Id</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Address</TableHead>
-                    <TableHead className="w-32">DOB</TableHead>
-                    <TableHead className="w-12">Gender</TableHead>
-                    <TableHead>Race</TableHead>
-                    <TableHead className="w-[100px]"></TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>{patientComponents}</TableBody>
-        </Table>
+        <>
+            <Table>
+                <TableCaption>Patients</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Id</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Address</TableHead>
+                        <TableHead className="">DOB</TableHead>
+                        <TableHead className="">Gender</TableHead>
+                        <TableHead className="w-36">Race</TableHead>
+                        <TableHead className="w-[100px]"></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>{patientComponents}</TableBody>
+            </Table>
+            <Link
+                href="patients/create"
+                className={cn(buttonVariants(), "float-right m-2")}
+            >
+                Create patient
+            </Link>
+        </>
     );
 }
 
