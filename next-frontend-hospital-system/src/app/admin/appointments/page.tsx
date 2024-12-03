@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 async function AppointmentsTable() {
     const data = await fetch("http://localhost:5222/api/appointment");
@@ -47,22 +48,30 @@ async function AppointmentsTable() {
     ));
 
     return (
-        <Table>
-            <TableCaption>Appointments</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Id</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Start</TableHead>
-                    <TableHead>End</TableHead>
-                    <TableHead>Patient</TableHead>
-                    <TableHead>Physician</TableHead>
-                    <TableHead></TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>{appointmentComponents}</TableBody>
-        </Table>
+        <>
+            <Table>
+                <TableCaption>Appointments</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Id</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Start</TableHead>
+                        <TableHead>End</TableHead>
+                        <TableHead>Patient</TableHead>
+                        <TableHead>Physician</TableHead>
+                        <TableHead></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>{appointmentComponents}</TableBody>
+            </Table>
+            <Link
+                href="appointments/create"
+                className={cn(buttonVariants(), "float-right")}
+            >
+                Create appointment
+            </Link>
+        </>
     );
 }
 
