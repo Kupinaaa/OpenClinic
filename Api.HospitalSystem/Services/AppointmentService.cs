@@ -138,7 +138,7 @@ public class AppointmentService : IAppointmentService
         List<TimeSpan> physicianAvailabilityTimeSpans = new List<TimeSpan>();
         List<DateTime> physicianAvailability = new List<DateTime>();
 
-        TimeSpan iteratorTime = new TimeSpan(day.Hour, day.Minute >= 30 ? 30 : 0, 0);
+        TimeSpan iteratorTime = START_TIME;
         TimeSpan stepTime = new TimeSpan(0, 30, 0);
 
         for (; iteratorTime < END_TIME; iteratorTime = iteratorTime.Add(stepTime))

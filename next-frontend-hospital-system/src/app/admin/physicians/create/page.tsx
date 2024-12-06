@@ -58,8 +58,6 @@ export default function MyForm() {
                 graduationDate: values.physicianDateOfGrad.toISOString(),
             };
 
-            console.log(PhysicianCreateDto);
-
             setLoading(true);
             const result = await fetch("http://localhost:5222/api/physician", {
                 headers: {

@@ -1,7 +1,6 @@
 import { convertGender, convertRace, PatientDTO } from "@/types/api/patient";
 import React from "react";
-import DeleteAppointmentButton from "../../appointments/[id]/deleteAppointment";
-import DeletePatientButton from "./deletePatientButton";
+import DeletePatientButton from "./DeletePatientButton";
 import { notFound } from "next/navigation";
 
 async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
