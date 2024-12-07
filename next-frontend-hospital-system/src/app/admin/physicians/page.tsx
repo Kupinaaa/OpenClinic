@@ -44,31 +44,36 @@ async function PhysiciansTable() {
     ));
 
     return (
-        <div>
-            <Table>
-                {/* <TableCaption>Appointments</TableCaption> */}
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Id</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Lisence #</TableHead>
-                        <TableHead>Graduation</TableHead>
-                        <TableHead>Specializations</TableHead>
-                        <TableHead></TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>{physicianComponents}</TableBody>
-            </Table>
-            <Link
-                className={cn(
-                    buttonVariants({ variant: "default" }),
-                    "float-right m-4"
-                )}
-                href="physicians/create"
-            >
-                New Physician
-            </Link>
-        </div>
+        <>
+            <h1 className="font-semibold text-3xl text-center mt-8">
+                Physicians
+            </h1>
+            <div className="max-w-3xl mx-auto p-10 border border-black rounded-lg mt-8">
+                <Table>
+                    {/* <TableCaption>Appointments</TableCaption> */}
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Id</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Lisence</TableHead>
+                            <TableHead>Graduation</TableHead>
+                            <TableHead>Specializations</TableHead>
+                            <TableHead></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>{physicianComponents}</TableBody>
+                </Table>
+                <Link
+                    className={cn(
+                        buttonVariants({ variant: "default" }),
+                        "mt-8"
+                    )}
+                    href="physicians/create"
+                >
+                    New Physician
+                </Link>
+            </div>
+        </>
     );
 }
 

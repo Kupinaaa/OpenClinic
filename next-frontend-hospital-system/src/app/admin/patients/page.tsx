@@ -44,27 +44,31 @@ async function PatientsTable() {
 
     return (
         <>
-            <Table>
-                <TableCaption>Patients</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Id</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Address</TableHead>
-                        <TableHead className="">DOB</TableHead>
-                        <TableHead className="">Gender</TableHead>
-                        <TableHead className="w-36">Race</TableHead>
-                        <TableHead className="w-[100px]"></TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>{patientComponents}</TableBody>
-            </Table>
-            <Link
-                href="patients/create"
-                className={cn(buttonVariants(), "float-right m-2")}
-            >
-                Create patient
-            </Link>
+            <h1 className="font-semibold text-3xl text-center mt-8">
+                Patients
+            </h1>
+            <div className="max-w-3xl mx-auto p-10 border border-black rounded-lg mt-8">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Id</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Address</TableHead>
+                            <TableHead className="">DOB</TableHead>
+                            <TableHead className="">Gender</TableHead>
+                            <TableHead className="w-36">Race</TableHead>
+                            <TableHead className="w-[100px]"></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>{patientComponents}</TableBody>
+                </Table>
+                <Link
+                    href="patients/create"
+                    className={cn(buttonVariants(), "mt-8")}
+                >
+                    Create patient
+                </Link>
+            </div>
         </>
     );
 }

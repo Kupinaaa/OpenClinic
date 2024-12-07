@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import BackButton from "@/components/ui/backbutton";
 
 export const metadata = {
     title: "Next.js",
@@ -12,7 +13,12 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className="">{children}</body>
+            <body className="">
+                <BackButton className="absolute z-10 top-2 left-2">
+                    {"<"}
+                </BackButton>
+                {children}
+            </body>
         </html>
     );
 }
