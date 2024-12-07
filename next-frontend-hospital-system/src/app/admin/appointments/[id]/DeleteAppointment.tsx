@@ -26,7 +26,7 @@ const DeleteAppointmentButton: React.FC<DeleteProps> = ({ id }) => {
     };
     return (
         <Button variant={"destructive"} onClick={handleDelete}>
-            Delete Appointment
+            Delete
         </Button>
     );
 };

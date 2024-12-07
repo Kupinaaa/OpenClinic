@@ -45,6 +45,7 @@ import { PhysicianDto } from "@/types/api/physician";
 import { Input } from "@/components/ui/input";
 import { AppointmentCreateDto, AppointmentDto } from "@/types/api/appointment";
 import { useRouter } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 const formSchema = z.object({
     title: z.string().max(100),
@@ -198,353 +199,371 @@ export default function MyForm() {
             router.push(`/admin/appointments/${resData.id}`);
         } catch (error) {
             console.error("Form submission error", error);
-            toast.error("Failed to submit the form. Please try again.");
+            toast.error(
+                "Failed to create appointment. Please try again with a different time."
+            );
         }
     }
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8 max-w-3xl mx-auto py-10"
-            >
-                <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-12">
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Appointemnt Title</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Title"
-                                            type="text"
-                                            {...field}
-                                            value={field.value ?? ""}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="col-span-12">
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>
-                                        Appointment Description
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Description"
-                                            className="resize-none"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="col-span-6">
-                        <FormField
-                            control={form.control}
-                            name="patient"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Patient</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "justify-between",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value
-                                                        ? patients.find(
-                                                              (patient) =>
-                                                                  patient.name ===
-                                                                  field.value
-                                                          )?.name
-                                                        : "Select patient"}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-full p-0">
-                                            <Command>
-                                                <CommandInput placeholder="Search language..." />
-                                                <CommandList>
-                                                    <CommandEmpty>
-                                                        No language found.
-                                                    </CommandEmpty>
-                                                    <CommandGroup>
-                                                        {patients.map(
-                                                            (patient) => (
-                                                                <CommandItem
-                                                                    value={
-                                                                        patient.name
-                                                                    }
-                                                                    key={
-                                                                        patient.id
-                                                                    }
-                                                                    onSelect={() => {
-                                                                        form.setValue(
-                                                                            "patient",
-                                                                            patient.name
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "mr-2 h-4 w-4",
-                                                                            patient.name ===
-                                                                                field.value
-                                                                                ? "opacity-100"
-                                                                                : "opacity-0"
-                                                                        )}
-                                                                    />
-                                                                    {
-                                                                        patient.name
-                                                                    }
-                                                                </CommandItem>
-                                                            )
-                                                        )}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="col-span-6">
-                        <FormField
-                            control={form.control}
-                            name="physician"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Physician</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "justify-between",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value
-                                                        ? physicians.find(
-                                                              (physician) =>
-                                                                  physician.name ===
-                                                                  field.value
-                                                          )?.name
-                                                        : "Select physician"}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-full p-0">
-                                            <Command>
-                                                <CommandInput placeholder="Search language..." />
-                                                <CommandList>
-                                                    <CommandEmpty>
-                                                        No language found.
-                                                    </CommandEmpty>
-                                                    <CommandGroup>
-                                                        {physicians.map(
-                                                            (physician) => (
-                                                                <CommandItem
-                                                                    value={
-                                                                        physician.name
-                                                                    }
-                                                                    key={
-                                                                        physician.id
-                                                                    }
-                                                                    onSelect={() => {
-                                                                        form.setValue(
-                                                                            "physician",
-                                                                            physician.name
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "mr-2 h-4 w-4",
-                                                                            physician.name ===
-                                                                                field.value
-                                                                                ? "opacity-100"
-                                                                                : "opacity-0"
-                                                                        )}
-                                                                    />
-                                                                    {
-                                                                        physician.name
-                                                                    }
-                                                                </CommandItem>
-                                                            )
-                                                        )}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-4">
-                        <FormField
-                            control={form.control}
-                            name="appointmentDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Date of Appointment</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "pl-3 text-left font-normal",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(
-                                                            field.value,
-                                                            "PPP"
-                                                        )
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            className="w-auto p-0"
-                                            align="start"
-                                        >
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                initialFocus
+        <>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8 max-w-3xl mx-auto py-10"
+                >
+                    <div className="grid grid-cols-12 gap-4">
+                        <div className="col-span-12">
+                            <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Appointemnt Title</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Title"
+                                                type="text"
+                                                {...field}
+                                                value={field.value ?? ""}
                                             />
-                                        </PopoverContent>
-                                    </Popover>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="col-span-4">
-                        <FormField
-                            control={form.control}
-                            name="dateTimeOfAppointment"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Time of Appointment</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select the time" />
-                                            </SelectTrigger>
                                         </FormControl>
-                                        <SelectContent>
-                                            {availability.map(
-                                                (dateTime: string) => {
-                                                    return (
-                                                        <SelectItem
-                                                            key={dateTime}
-                                                            value={dateTime}
-                                                        >
-                                                            {new Date(dateTime)
-                                                                .toUTCString()
-                                                                .slice(17, 30)}
-                                                        </SelectItem>
-                                                    );
-                                                }
-                                            )}
-                                        </SelectContent>
-                                    </Select>
 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="col-span-4">
-                        <FormField
-                            control={form.control}
-                            name="timeLengthOfAppointment"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Length of Appointment</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="col-span-12">
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Appointment Description
+                                        </FormLabel>
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select the length" />
-                                            </SelectTrigger>
+                                            <Textarea
+                                                placeholder="Description"
+                                                className="resize-none"
+                                                {...field}
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="30">
-                                                30m
-                                            </SelectItem>
-                                            <SelectItem value="60">
-                                                1h
-                                            </SelectItem>
-                                            <SelectItem value="90">
-                                                1.5h
-                                            </SelectItem>
-                                            <SelectItem value="120">
-                                                2h
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="col-span-6">
+                            <FormField
+                                control={form.control}
+                                name="patient"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Patient</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        className={cn(
+                                                            "justify-between",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value
+                                                            ? patients.find(
+                                                                  (patient) =>
+                                                                      patient.name ===
+                                                                      field.value
+                                                              )?.name
+                                                            : "Select patient"}
+                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-full p-0">
+                                                <Command>
+                                                    <CommandInput placeholder="Search language..." />
+                                                    <CommandList>
+                                                        <CommandEmpty>
+                                                            No language found.
+                                                        </CommandEmpty>
+                                                        <CommandGroup>
+                                                            {patients.map(
+                                                                (patient) => (
+                                                                    <CommandItem
+                                                                        value={
+                                                                            patient.name
+                                                                        }
+                                                                        key={
+                                                                            patient.id
+                                                                        }
+                                                                        onSelect={() => {
+                                                                            form.setValue(
+                                                                                "patient",
+                                                                                patient.name
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "mr-2 h-4 w-4",
+                                                                                patient.name ===
+                                                                                    field.value
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                        {
+                                                                            patient.name
+                                                                        }
+                                                                    </CommandItem>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="col-span-6">
+                            <FormField
+                                control={form.control}
+                                name="physician"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Physician</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        className={cn(
+                                                            "justify-between",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value
+                                                            ? physicians.find(
+                                                                  (physician) =>
+                                                                      physician.name ===
+                                                                      field.value
+                                                              )?.name
+                                                            : "Select physician"}
+                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-full p-0">
+                                                <Command>
+                                                    <CommandInput placeholder="Search language..." />
+                                                    <CommandList>
+                                                        <CommandEmpty>
+                                                            No language found.
+                                                        </CommandEmpty>
+                                                        <CommandGroup>
+                                                            {physicians.map(
+                                                                (physician) => (
+                                                                    <CommandItem
+                                                                        value={
+                                                                            physician.name
+                                                                        }
+                                                                        key={
+                                                                            physician.id
+                                                                        }
+                                                                        onSelect={() => {
+                                                                            form.setValue(
+                                                                                "physician",
+                                                                                physician.name
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "mr-2 h-4 w-4",
+                                                                                physician.name ===
+                                                                                    field.value
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                        {
+                                                                            physician.name
+                                                                        }
+                                                                    </CommandItem>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>
-                <Button type="submit" disabled={loading}>
-                    Submit
-                </Button>
-            </form>
-        </Form>
+
+                    <div className="grid grid-cols-12 gap-4">
+                        <div className="col-span-4">
+                            <FormField
+                                control={form.control}
+                                name="appointmentDate"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>
+                                            Date of Appointment
+                                        </FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "pl-3 text-left font-normal",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(
+                                                                field.value,
+                                                                "PPP"
+                                                            )
+                                                        ) : (
+                                                            <span>
+                                                                Pick a date
+                                                            </span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="col-span-4">
+                            <FormField
+                                control={form.control}
+                                name="dateTimeOfAppointment"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>
+                                            Time of Appointment
+                                        </FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select the time" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {availability.map(
+                                                    (dateTime: string) => {
+                                                        return (
+                                                            <SelectItem
+                                                                key={dateTime}
+                                                                value={dateTime}
+                                                            >
+                                                                {new Date(
+                                                                    dateTime
+                                                                )
+                                                                    .toUTCString()
+                                                                    .slice(
+                                                                        17,
+                                                                        30
+                                                                    )}
+                                                            </SelectItem>
+                                                        );
+                                                    }
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="col-span-4">
+                            <FormField
+                                control={form.control}
+                                name="timeLengthOfAppointment"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>
+                                            Length of Appointment
+                                        </FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select the length" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="30">
+                                                    30m
+                                                </SelectItem>
+                                                <SelectItem value="60">
+                                                    1h
+                                                </SelectItem>
+                                                <SelectItem value="90">
+                                                    1.5h
+                                                </SelectItem>
+                                                <SelectItem value="120">
+                                                    2h
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+                    <Button type="submit" disabled={loading}>
+                        Submit
+                    </Button>
+                </form>
+            </Form>
+            <Toaster />
+        </>
     );
 }

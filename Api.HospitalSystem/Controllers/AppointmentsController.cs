@@ -84,9 +84,9 @@ namespace Api.HospitalSystem.Controllers
         }
 
         [HttpGet("availability/{physicianId}")]
-        public async Task<IActionResult> GetPhysicianAvailability([FromRoute] int physicianId, [FromQuery] DateTime day)
+        public async Task<IActionResult> GetPhysicianAvailability([FromRoute] int physicianId, [FromQuery] DateTime day, [FromQuery] int? updateId)
         {
-            List<DateTime> physicianAvailability = await _appointmentService.GetPhysicianAvailability(physicianId, day.Date);
+            List<DateTime> physicianAvailability = await _appointmentService.GetPhysicianAvailability(physicianId, day.Date, updateId);
             return Ok(physicianAvailability);
         }
     }

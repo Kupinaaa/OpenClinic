@@ -132,7 +132,7 @@ public class AppointmentService : IAppointmentService
         return patientAppointmentDtos;
     } 
 
-    public async Task<List<DateTime>> GetPhysicianAvailability(int physicianId, DateTime day)
+    public async Task<List<DateTime>> GetPhysicianAvailability(int physicianId, DateTime day, int? updateId)
     {
         List<Appointment> physicianAppointments = await _appointmentRepository.GetUpcomingByPhysicianId(physicianId, day);
         List<TimeSpan> physicianAvailabilityTimeSpans = new List<TimeSpan>();
@@ -147,6 +147,10 @@ public class AppointmentService : IAppointmentService
         }
 
         physicianAppointments.ForEach(appointment => {
+            if(appointment.Id == updateId) {
+                Console.WriteLine("RAAAAAH!!");
+                return;
+            }
             for (iteratorTime = new TimeSpan(appointment.DateTimeStart.Hour, appointment.DateTimeStart.Minute >= 30 ? 30 : 0, 0); iteratorTime <= appointment.DateTimeEnd.TimeOfDay; iteratorTime = iteratorTime.Add(stepTime))
             {
                 physicianAvailabilityTimeSpans.Remove(iteratorTime);

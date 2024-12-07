@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { AppointmentDto } from "@/types/api/appointment";
 import Link from "next/link";
 import React from "react";
-import DeleteAppointmentButton from "./deleteAppointment";
+import DeleteAppointmentButton from "./DeleteAppointment";
 import { notFound } from "next/navigation";
 
 async function displayAppointment({
@@ -53,6 +53,12 @@ async function displayAppointment({
             </div>
             <div className="flex gap-2 mt-8">
                 <DeleteAppointmentButton id={id} />
+                <Link
+                    href={`${id}/edit`}
+                    className={buttonVariants({ variant: "outline" })}
+                >
+                    Edit
+                </Link>
             </div>
         </div>
     );
