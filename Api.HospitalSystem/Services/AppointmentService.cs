@@ -72,19 +72,19 @@ public class AppointmentService : IAppointmentService
         return deletedAppointment;
     }
 
-    public async Task<List<AppointmentDto>> GetAllAppointments()
+    public async Task<List<AppointmentWithNavDto>> GetAllAppointments()
     {
         List<Appointment> appointments = await _appointmentRepository.GetAll();
-        List<AppointmentDto> appointmentDtos = appointments.Select(a => a.ToAppointmentDto()).ToList();
+        List<AppointmentWithNavDto> appointmentDtos = appointments.Select(a => a.ToAppointmentWithNavDto()).ToList();
         return appointmentDtos;
     }
 
-    public async Task<AppointmentDto?> GetAppointmentById(int id)
+    public async Task<AppointmentWithNavDto?> GetAppointmentById(int id)
     {
         Appointment? appointment = await _appointmentRepository.GetById(id);
         if (appointment == null) return null;
 
-        AppointmentDto appointmentDto = appointment.ToAppointmentDto();
+        AppointmentWithNavDto appointmentDto = appointment.ToAppointmentWithNavDto();
         return appointmentDto;
     }
 

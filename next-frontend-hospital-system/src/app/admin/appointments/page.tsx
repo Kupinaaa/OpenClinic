@@ -1,5 +1,5 @@
 import React from "react";
-import { AppointmentDto } from "@/types/api/appointment";
+import { AppointmentDto, AppointmentWithNavDto } from "@/types/api/appointment";
 import {
     Table,
     TableBody,
@@ -17,7 +17,8 @@ import { cn } from "@/lib/utils";
 
 async function AppointmentsTable() {
     const data = await fetch("http://localhost:5222/api/appointment");
-    const appointments = (await data.json()) as AppointmentDto[];
+    const appointments = (await data.json()) as AppointmentWithNavDto[];
+    console.log(appointments);
     // console.log(patients);
 
     const appointmentComponents = appointments.map((appointment) => (
@@ -31,8 +32,8 @@ async function AppointmentsTable() {
             <TableCell>
                 {new Date(appointment.dateTimeEnd).toLocaleString()}
             </TableCell>
-            <TableCell>{appointment.patientId}</TableCell>
-            <TableCell>{appointment.physicianId}</TableCell>
+            <TableCell>{appointment.patientNav.name}</TableCell>
+            <TableCell>{appointment.physicianNav.name}</TableCell>
             <TableCell>
                 <Link
                     href={`appointments/${appointment.id}`}
