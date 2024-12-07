@@ -52,7 +52,7 @@ async function AppointmentsTable() {
     return (
         <>
             <h1 className="font-semibold text-3xl text-center mt-8">
-                Appointemnts
+                Appointments
             </h1>
             <div className="max-w-4xl mx-auto p-10 border border-black rounded-lg mt-8">
                 <Table>
