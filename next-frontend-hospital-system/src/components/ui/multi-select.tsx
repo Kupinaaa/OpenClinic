@@ -145,6 +145,12 @@ export const MultiSelect = React.forwardRef<
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
         const [isAnimating, setIsAnimating] = React.useState(false);
 
+        React.useEffect(() => {
+            if (selectedValues.length == 0) {
+                setSelectedValues(defaultValue.slice(1));
+            }
+        }, [defaultValue]);
+
         const handleInputKeyDown = (
             event: React.KeyboardEvent<HTMLInputElement>
         ) => {
@@ -217,7 +223,7 @@ export const MultiSelect = React.forwardRef<
                                         .slice(0, maxCount)
                                         .map((value) => {
                                             const option = options.find(
-                                                (o) => o.value === value
+                                                (o) => o.value == value
                                             );
                                             const IconComponent = option?.icon;
                                             return (

@@ -2,6 +2,8 @@ import { convertGender, convertRace, PatientDTO } from "@/types/api/patient";
 import React from "react";
 import DeletePatientButton from "./DeletePatientButton";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
     const id = (await params).id;
@@ -41,6 +43,12 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
             </div>
             <div className="flex gap-2 mt-8">
                 <DeletePatientButton id={id} />
+                <Link
+                    href={`${id}/edit`}
+                    className={buttonVariants({ variant: "outline" })}
+                >
+                    Edit
+                </Link>
             </div>
         </div>
     );
