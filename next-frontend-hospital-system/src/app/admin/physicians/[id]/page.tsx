@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { PhysicianDto } from "@/types/api/physician";
 import { notFound, redirect, useRouter } from "next/navigation";
 import React from "react";
 import DeletePhysicianButton from "./DeletePhysicianButton";
 import { Toaster } from "sonner";
+import Link from "next/link";
 
 async function displayPhysician({
     params,
@@ -44,6 +45,12 @@ async function displayPhysician({
             </div>
             <div className="flex gap-2 mt-8">
                 <DeletePhysicianButton id={id} />
+                <Link
+                    href={`${id}/edit`}
+                    className={buttonVariants({ variant: "outline" })}
+                >
+                    Edit
+                </Link>
             </div>
             <Toaster />
         </div>
