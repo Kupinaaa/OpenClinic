@@ -69,6 +69,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<AppointmentTreatment> AppointmentTreatments { get; set; }
     public DbSet<InsurancePlan> InsurancePlans { get; set; }
-    public DbSet<Bill> Payments { get; set; }
+    public DbSet<Bill> Bills { get; set; }
     public DbSet<Treatment> Treatments { get; set; }
 }
