@@ -238,7 +238,7 @@ export default function MyForm() {
                                     <MultiSelect
                                         options={raceValuesList}
                                         onValueChange={field.onChange}
-                                        defaultValue={field.value}
+                                        defaultValue={[]}
                                         variant={"default"}
                                     />
                                 </FormControl>
