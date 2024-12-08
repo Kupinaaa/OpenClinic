@@ -38,6 +38,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         return await _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -49,6 +50,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         return await _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -60,6 +62,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -72,6 +75,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -84,6 +88,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -96,6 +101,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -108,6 +114,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)
@@ -125,6 +132,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var updateAppointment = await _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
             .Include(a => a.Physician)
             .Include(a => a.AppointmentTreatments)
                 .ThenInclude(at => at.Treatment)

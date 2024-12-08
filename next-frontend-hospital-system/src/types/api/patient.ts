@@ -5,6 +5,28 @@ export interface PatientDTO {
     dob: string;
     gender: string;
     race: string[];
+    insurancePlan: InsurancePlanDto;
+}
+
+/*
+public class InsurancePlanDto
+{
+    public int Id { get; set; } = 0;
+    public string Name { get; set; } = string.Empty;
+    public double Deductable { get; set; } = 0;
+    public double Copay { get; set; } = 0;
+    public double CoinsurancePercent { get; set; } = 0;
+    public double OOPM { get; set; } = 0;
+}
+*/
+
+export interface InsurancePlanDto {
+    id: number;
+    name: number;
+    deductable: number;
+    copay: number;
+    coinsurancePercent: number;
+    OOPM: number;
 }
 
 /*public enum Race {

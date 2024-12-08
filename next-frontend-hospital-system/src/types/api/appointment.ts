@@ -9,6 +9,16 @@ export interface AppointmentDto {
     dateTimeEnd: string;
     physicianId: number;
     patientId: number;
+    billId: number;
+    patientNav: PatientDTO;
+    physicianNav: PhysicianDto;
+    billNav: BillDto;
+}
+
+export interface BillDto {
+    id: number;
+    amount: number;
+    outOfPocket: number;
 }
 
 export interface AppointmentWithNavDto {
