@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 
 import { MultiSelect } from "@/components/ui/multi-select";
-import { PatientDTO } from "@/types/api/patient";
+import { InsurancePlanDto, PatientDTO } from "@/types/api/patient";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -42,6 +42,7 @@ const formSchema = z.object({
     dob: z.coerce.date(),
     gender: z.string().nonempty("Please select your gender"),
     race: z.array(z.string()).nonempty("Please at least one item"),
+    insurancePlanId: z.string().nonempty("Plesae select your insurance"),
 });
 
 export default function MyForm() {
@@ -73,6 +74,9 @@ export default function MyForm() {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [insurancePlans, setInsurancePlans] = useState<InsurancePlanDto[]>(
+        []
+    );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -103,6 +107,24 @@ export default function MyForm() {
             toast.error("Failed to submit the form. Please try again.");
         }
     }
+
+    const fetchInsurances = async () => {
+        try {
+            const result = await fetch(
+                "http://localhost:5222/api/insuranceplan"
+            );
+            if (!result.ok) throw new Error("Fetch failed");
+            const fetchedInsurances =
+                (await result.json()) as InsurancePlanDto[];
+            setInsurancePlans(fetchedInsurances);
+        } catch {
+            console.error("There was an error fetching patients");
+        }
+    };
+
+    useEffect(() => {
+        fetchInsurances();
+    }, []);
 
     return (
         <>
@@ -242,6 +264,37 @@ export default function MyForm() {
                                         variant={"default"}
                                     />
                                 </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="insurancePlanId"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Insurance Plan</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {insurancePlans.map((insurance) => (
+                                            <SelectItem
+                                                value={insurance.id.toString()}
+                                            >
+                                                {insurance.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
 
                                 <FormMessage />
                             </FormItem>

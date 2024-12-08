@@ -43,9 +43,14 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { PatientDTO } from "@/types/api/patient";
 import { PhysicianDto } from "@/types/api/physician";
 import { Input } from "@/components/ui/input";
-import { AppointmentCreateDto, AppointmentDto } from "@/types/api/appointment";
+import {
+    AppointmentCreateDto,
+    AppointmentDto,
+    Treatment,
+} from "@/types/api/appointment";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import { MultiSelect } from "@/components/ui/multi-select";
 
 const formSchema = z.object({
     title: z.string().max(100),
@@ -55,7 +60,13 @@ const formSchema = z.object({
     appointmentDate: z.coerce.date(),
     dateTimeOfAppointment: z.string(),
     timeLengthOfAppointment: z.string(),
+    treatments: z.array(z.string()).nonempty("Please at least one item"),
 });
+
+interface TreatmentKeyValue {
+    value: string;
+    label: string;
+}
 
 export default function MyForm() {
     const [patients, setPatients] = useState<PatientDTO[]>([]);
@@ -78,6 +89,27 @@ export default function MyForm() {
 
     const [debouncedPatientQuery, setDebouncedPatientQuery] = useState("");
     const [debouncedPhysicianQuery, setDebouncedPhysicianQuery] = useState("");
+
+    const [treatmentOptions, setTreatmentOptions] = useState<
+        TreatmentKeyValue[]
+    >([]);
+
+    const fetchTreatments = async () => {
+        try {
+            const result = await fetch("http://localhost:5222/api/treatment");
+            if (!result.ok) throw new Error("Fetch failed");
+            const fetchedTreatments = (await result.json()) as Treatment[];
+            setTreatmentOptions(
+                fetchedTreatments.map((t) => ({
+                    value: t.id.toString(),
+                    label: t.name,
+                }))
+            );
+            console.log(treatmentOptions, fetchedTreatments);
+        } catch {
+            console.error("There was an error fetching patients");
+        }
+    };
 
     const fetchPatients = async (query: string) => {
         try {
@@ -156,6 +188,10 @@ export default function MyForm() {
             updateAvailability(queryPhysician, dateOfAppointment);
     }, [debouncedPhysicianQuery, dateOfAppointment]);
 
+    useEffect(() => {
+        fetchTreatments();
+    }, []);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const patient = patients.find((p) => p.name == values.patient);
@@ -175,6 +211,7 @@ export default function MyForm() {
                     new Date(values.dateTimeOfAppointment).getTime() +
                         parseInt(values.timeLengthOfAppointment) * 60000
                 ).toJSON(),
+                treatmentOptionIds: values.treatments,
             };
 
             setLoading(true);
@@ -558,6 +595,25 @@ export default function MyForm() {
                             />
                         </div>
                     </div>
+                    <FormField
+                        control={form.control}
+                        name="treatments"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Treatment(s)</FormLabel>
+                                <FormControl>
+                                    <MultiSelect
+                                        options={treatmentOptions}
+                                        onValueChange={field.onChange}
+                                        defaultValue={[]}
+                                        variant={"default"}
+                                    />
+                                </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <Button type="submit" disabled={loading}>
                         Submit
                     </Button>

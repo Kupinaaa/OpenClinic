@@ -21,6 +21,12 @@ export interface BillDto {
     outOfPocket: number;
 }
 
+export interface Treatment {
+    id: number;
+    name: string;
+    price: number;
+}
+
 export interface AppointmentWithNavDto {
     id: number;
     title: string;
@@ -40,4 +46,5 @@ export interface AppointmentCreateDto {
     dateTimeEnd: string;
     physicianId: number;
     patientId: number;
+    treatmentOptionIds: string[];
 }

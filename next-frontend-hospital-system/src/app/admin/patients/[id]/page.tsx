@@ -40,6 +40,10 @@ async function displayPatient({ params }: { params: Promise<{ id: number }> }) {
                         {patientDto.race.map(convertRace).join(", ")}
                     </p>
                 </div>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Insurance:</p>
+                    <p className="">{patientDto.insurancePlan.name}</p>
+                </div>
             </div>
             <div className="flex gap-2 mt-8">
                 <DeletePatientButton id={id} />
