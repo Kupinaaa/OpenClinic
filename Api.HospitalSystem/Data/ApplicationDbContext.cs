@@ -27,6 +27,12 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(e => e.PatientId)
             .IsRequired();
 
+        modelBuilder.Entity<Bill>()
+            .HasOne(e => e.AppointmentNav)
+            .WithOne(e => e.Bill)
+            .HasForeignKey<Bill>(e => e.AppointmentId)
+            .IsRequired(false);
+
         modelBuilder.Entity<Appointment>()
             .HasMany(e => e.AppointmentTreatments)
             .WithOne(e => e.Appointment)
@@ -48,12 +54,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Patient>()
             .HasMany(e => e.Appointments)
             .WithOne(e => e.Patient)
-            .HasForeignKey(e => e.PatientId)
-            .IsRequired();
-
-        modelBuilder.Entity<Patient>()
-            .HasMany(e => e.Payments)
-            .WithOne()
             .HasForeignKey(e => e.PatientId)
             .IsRequired();
 
