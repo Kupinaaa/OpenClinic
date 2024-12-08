@@ -101,6 +101,9 @@ public class AppointmentService : IAppointmentService
             createAppointment.Bill.OutOfPocket = outOfPocket;
         }
 
+        createAppointment.Patient.TotalPayThisYear += createAppointment.Bill.OutOfPocket;
+        createAppointment.Patient.Balance -= createAppointment.Bill.OutOfPocket;
+
 
         Appointment createdAppointment = await _appointmentRepository.Create(createAppointment);
         AppointmentDto createdAppointmentDto = createdAppointment.ToAppointmentDto();
