@@ -11,7 +11,13 @@ public class Patient
     public DateTime DOB { get; set; } = DateTime.MinValue;
     public Gender Gender { get; set; } = Gender.NotSpecified;
     public List<Race> Race { get; set; } = new List<Race>{Enums.Race.NotSpecified};
+
     public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public int InsurancePlanId { get; set; } = 0;
+    public double Balance { get; set; } = 0;
+    public double TotalPayThisYear { get; set; } = 0;
+    public InsurancePlan? InsurancePlan { get; set; } = null;
+    public List<Payment> Payments { get; set; } = new List<Payment>();
 
     // TODO: Add medical history, tests, etc.
 }

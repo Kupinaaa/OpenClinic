@@ -15,6 +15,7 @@ public class Appointment
     // Navigation
     public Patient Patient { get; set; } = null!;
     public Physician Physician { get; set; } = null!;
+    public List<AppointmentTreatment> AppointmentTreatments { get; set; } = new List<AppointmentTreatment>();
 
     // TODO: Add Nurse, Testing Center, Test results
 
