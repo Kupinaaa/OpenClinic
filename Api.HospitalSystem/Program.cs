@@ -29,11 +29,13 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPhysicianRepository, PhysicianRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+builder.Services.AddScoped<IInsurancePlanRepository, InsurancePlanRepository>();
 
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IPhysicianService, PhysicianService>();
 builder.Services.AddScoped<ITreatmentService, TreatmentService>();
+builder.Services.AddScoped<IInsurancePlanService, InsurancePlanService>();
 
 builder.Services.AddCors(options =>
 {
