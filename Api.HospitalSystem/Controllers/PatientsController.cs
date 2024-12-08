@@ -38,18 +38,25 @@ namespace Api.HospitalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePatient([FromBody] PatientCreateRequestDto createPatientDto)
         {
-            PatientDto createdPatientDto = await _patientService.CreatePatient(createPatientDto);
-
-            return CreatedAtAction(nameof(GetById), new { id = createdPatientDto.Id }, createdPatientDto);
+            try {
+                PatientDto createdPatientDto = await _patientService.CreatePatient(createPatientDto);
+                return CreatedAtAction(nameof(GetById), new { id = createdPatientDto.Id }, createdPatientDto);
+            } catch {
+                return BadRequest();
+            }
         }
         
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePatient([FromRoute] int id, [FromBody] PatientUpdateRequestDto updatePatientDto)
         {
-            PatientDto? updatedPatientDto = await _patientService.UpdatePatient(id, updatePatientDto);
+            try {
+                PatientDto? updatedPatientDto = await _patientService.UpdatePatient(id, updatePatientDto);
 
-            if (updatedPatientDto == null) return NotFound();
-            return Ok(updatedPatientDto);
+                if (updatedPatientDto == null) return NotFound();
+                return Ok(updatedPatientDto);
+            } catch {
+                return BadRequest();
+            }
         }
         
         [HttpDelete("{id}")]

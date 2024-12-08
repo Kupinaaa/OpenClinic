@@ -24,7 +24,7 @@ namespace Api.HospitalSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<AppointmentWithNavDto> appointmentDtos = await _appointmentService.GetAllAppointments();
+            List<AppointmentDto> appointmentDtos = await _appointmentService.GetAllAppointments();
             return Ok(appointmentDtos);
         }
         [HttpPost]
@@ -39,7 +39,7 @@ namespace Api.HospitalSystem.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            AppointmentWithNavDto? appointmentDto = await _appointmentService.GetAppointmentById(id);
+            AppointmentDto? appointmentDto = await _appointmentService.GetAppointmentById(id);
             if (appointmentDto == null) return NotFound();
             return Ok(appointmentDto);
         }
