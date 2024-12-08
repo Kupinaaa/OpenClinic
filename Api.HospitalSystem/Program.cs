@@ -2,6 +2,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Interfaces;
+using Api.HospitalSystem.Interfaces.Repositories;
+using Api.HospitalSystem.Interfaces.Services;
 using Api.HospitalSystem.Repositories;
 using Api.HospitalSystem.Services;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +28,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPhysicianRepository, PhysicianRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
 
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IPhysicianService, PhysicianService>();
+builder.Services.AddScoped<ITreatmentService, TreatmentService>();
 
 builder.Services.AddCors(options =>
 {

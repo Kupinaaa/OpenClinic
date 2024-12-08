@@ -11,11 +11,13 @@ public class Appointment
     public DateTime DateTimeEnd { get; set; } = DateTime.MinValue;
     public int PhysicianId { get; set; } = 0;
     public int PatientId { get; set; } = 0;
+    public int BillId { get; set; } = 0;
 
     // Navigation
     public Patient Patient { get; set; } = null!;
     public Physician Physician { get; set; } = null!;
     public List<AppointmentTreatment> AppointmentTreatments { get; set; } = new List<AppointmentTreatment>();
+    public Bill? Bill { get; set; } = null;
 
     // TODO: Add Nurse, Testing Center, Test results
 

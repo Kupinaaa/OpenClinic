@@ -1,5 +1,6 @@
 using System;
 using Api.HospitalSystem.Dtos.PhysicianDtos;
+using Api.HospitalSystem.Dtos.TreatmentDtos;
 using Api.HospitalSystem.Models;
 
 namespace Api.HospitalSystem.Dtos.AppointmentDtos;
@@ -13,6 +14,7 @@ public class AppointmentWithNavDto
     public DateTime DateTimeEnd { get; set; } = DateTime.MinValue;
     public int PhysicianId { get; set; } = 0;
     public int PatientId { get; set; } = 0;
-    public PhysicianDto? PhysicianNav { get; set; } = null;
-    public PatientDto? PatientNav { get; set; } = null;
+    public PhysicianDto PhysicianNav { get; set; } = null!;
+    public PatientDto PatientNav { get; set; } = null!;
+    public List<AppointmentTreatmentDto> AppointmentTreatmentNav { get; set; } = new List<AppointmentTreatmentDto>();
 }

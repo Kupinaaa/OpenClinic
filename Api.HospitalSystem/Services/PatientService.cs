@@ -51,6 +51,11 @@ public class PatientService: IPatientService
         return patientDto;
     }
 
+    public async Task<Patient?> GetPatientDataById(int id)
+    {
+        return await _patientRepository.GetByIdAsync(id);
+    }
+
     public Task<List<DateTime>> TimeSlots(int id, DateTime date)
     {
         throw new NotImplementedException();

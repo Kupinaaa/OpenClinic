@@ -9,6 +9,7 @@ public interface IPatientService
 {
     Task<List<PatientDto>> GetAllPatients();
     Task<PatientDto?> GetPatientById(int id);
+    Task<Patient?> GetPatientDataById(int id);
     Task<PatientDto> CreatePatient(PatientCreateRequestDto patientCreateDto);
     Task<PatientDto?> UpdatePatient(int id, PatientUpdateRequestDto patientUpdateDto);
     Task<PatientDto?> DeletePatient(int id);

@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Appointment>()
             .HasMany(e => e.AppointmentTreatments)
-            .WithOne()
+            .WithOne(e => e.Appointment)
             .HasForeignKey(e => e.AppointmentId)
             .IsRequired();
         
@@ -51,7 +51,6 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(e => e.PatientId)
             .IsRequired();
 
-
         modelBuilder.Entity<Patient>()
             .HasMany(e => e.Payments)
             .WithOne()
@@ -70,6 +69,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<AppointmentTreatment> AppointmentTreatments { get; set; }
     public DbSet<InsurancePlan> InsurancePlans { get; set; }
-    public DbSet<Payment> Payments { get; set; }
+    public DbSet<Bill> Payments { get; set; }
     public DbSet<Treatment> Treatments { get; set; }
 }

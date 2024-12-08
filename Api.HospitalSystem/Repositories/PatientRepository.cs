@@ -42,7 +42,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<Patient?> GetByIdAsync(int id)
     {
-        return await _context.Patients.FirstOrDefaultAsync(p => id == p.Id);
+        return await _context.Patients.Include(p => p.InsurancePlan).FirstOrDefaultAsync(p => id == p.Id);
     }
 
     public async Task<Patient?> UpdateAsync(int id, Patient updatePatient)

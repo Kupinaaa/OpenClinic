@@ -14,6 +14,7 @@ public class AppointmentRepository: IAppointmentRepository
     {
         _context = context;
     }
+
     public async Task<Appointment> Create(Appointment createAppointment)
     {
         await _context.Appointments.AddAsync(createAppointment);
@@ -71,6 +72,11 @@ public class AppointmentRepository: IAppointmentRepository
     {
         var appointments = _context.Appointments.Where(a => a.PhysicianId == physicianId && a.DateTimeEnd >= now);
         return await appointments.ToListAsync();
+    }
+
+    public async void SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 
     public async Task<Appointment?> Update(int id, Appointment updateBody)

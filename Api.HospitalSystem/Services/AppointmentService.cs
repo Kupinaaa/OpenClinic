@@ -1,12 +1,15 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Dtos;
 using Api.HospitalSystem.Dtos.AppointmentDtos;
 using Api.HospitalSystem.Dtos.PhysicianDtos;
 using Api.HospitalSystem.Interfaces;
+using Api.HospitalSystem.Interfaces.Services;
 using Api.HospitalSystem.Mappers;
 using Api.HospitalSystem.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Api.HospitalSystem.Services;
 
@@ -15,13 +18,15 @@ public class AppointmentService : IAppointmentService
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IPatientService _patientService;
     private readonly IPhysicianService _physicianService;
+    private readonly ITreatmentService _treatmentService;
     private readonly TimeSpan START_TIME = new TimeSpan(8, 0, 0);
     private readonly TimeSpan END_TIME = new TimeSpan(17, 0, 0);
-    public AppointmentService(IAppointmentRepository appointmentRepository, IPatientService patientService, IPhysicianService physicianService)
+    public AppointmentService(IAppointmentRepository appointmentRepository, IPatientService patientService, IPhysicianService physicianService, ITreatmentService treatmentService)
     {
         _appointmentRepository = appointmentRepository;
         _patientService = patientService;
         _physicianService = physicianService;
+        _treatmentService = treatmentService;
     }
 
     public async Task<bool> CheckAppointmentTime(Appointment appointment, int? updateAppiontmentId = null)
@@ -56,6 +61,46 @@ public class AppointmentService : IAppointmentService
         Appointment createAppointment = createAppointmentDto.ToAppointment();
 
         if(await CheckAppointmentTime(createAppointment) == false) return null;
+
+        List<Treatment> treatments = await _treatmentService.GetTreatmentsByIds(createAppointmentDto.TreatmentOptionIds);
+        createAppointment.AppointmentTreatments = treatments.Select(t => new AppointmentTreatment{Treatment = t}).ToList();
+
+        Patient? patient = await _patientService.GetPatientDataById(createAppointmentDto.PatientId);
+        if (patient == null) return null;
+
+        createAppointment.Bill = new Bill
+        {
+            Amount = createAppointment.AppointmentTreatments.Select(t => t.Treatment.Price).Sum(),
+        };
+
+        InsurancePlan? insurance = createAppointment.Patient.InsurancePlan;
+        if (insurance == null) createAppointment.Bill.OutOfPocket = createAppointment.Bill.Amount;
+        else 
+        {
+            double leftToCover = createAppointment.Bill.Amount;
+            double outOfPocket = 0;
+
+            double deductableLeft = Math.Max(0, insurance.Deductable - patient.TotalPayThisYear);
+            double deductableCover = Math.Min(deductableLeft, leftToCover);
+            leftToCover -= deductableCover;
+            outOfPocket += deductableCover;
+
+            if (leftToCover > 0)
+            {
+                double coPay = Math.Min(leftToCover, insurance.Copay);
+                leftToCover -= coPay;
+                outOfPocket += coPay;
+            }
+
+            if (leftToCover > 0)
+            {
+                double coPay = Math.Min(insurance.OOPM, leftToCover * insurance.CoinsurancePercent);
+                leftToCover = 0;
+                outOfPocket += coPay;
+            } 
+            createAppointment.Bill.OutOfPocket = outOfPocket;
+        }
+
 
         Appointment createdAppointment = await _appointmentRepository.Create(createAppointment);
         AppointmentDto createdAppointmentDto = createdAppointment.ToAppointmentDto();
@@ -148,7 +193,6 @@ public class AppointmentService : IAppointmentService
 
         physicianAppointments.ForEach(appointment => {
             if(appointment.Id == updateId) {
-                Console.WriteLine("RAAAAAH!!");
                 return;
             }
             for (iteratorTime = new TimeSpan(appointment.DateTimeStart.Hour, appointment.DateTimeStart.Minute >= 30 ? 30 : 0, 0); iteratorTime <= appointment.DateTimeEnd.TimeOfDay; iteratorTime = iteratorTime.Add(stepTime))

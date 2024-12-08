@@ -32,7 +32,8 @@ public static class AppointmentMapper
             PatientId = appointment.PatientId,
             PhysicianId = appointment.PhysicianId,
             PhysicianNav = appointment.Physician.ToPhysicianDto(),
-            PatientNav = appointment.Patient.ToPatientDto()
+            PatientNav = appointment.Patient.ToPatientDto(),
+            AppointmentTreatmentNav = appointment.AppointmentTreatments.Select(t => t.ToAppointmentTreatmentDto()).ToList()
         };
     }
 
