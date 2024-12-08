@@ -37,7 +37,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<List<Patient>> GetAllAsync()
     {
-        return await _context.Patients.ToListAsync();
+        return await _context.Patients.Include(p => p.InsurancePlan).ToListAsync();
     }
 
     public async Task<Patient?> GetByIdAsync(int id)

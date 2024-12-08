@@ -17,7 +17,5 @@ public class Patient
     public double Balance { get; set; } = 0;
     public double TotalPayThisYear { get; set; } = 0;
     public InsurancePlan? InsurancePlan { get; set; } = null;
-    public List<Bill> Payments { get; set; } = new List<Bill>();
-
     // TODO: Add medical history, tests, etc.
 }

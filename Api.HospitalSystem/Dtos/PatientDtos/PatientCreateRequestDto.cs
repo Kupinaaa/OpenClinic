@@ -10,4 +10,8 @@ public class PatientCreateRequestDto
     public DateTime DOB { get; set; } = DateTime.MinValue;
     public Gender Gender { get; set; } = Gender.NotSpecified;
     public List<Race> Race { get; set; } = new List<Race>{Enums.Race.NotSpecified};
+
+    public int InsurancePlanId { get; set; } = 0;
+    public double Balance { get; set; } = 0;
+    public double TotalPayThisYear { get; set; } = 0;
 }

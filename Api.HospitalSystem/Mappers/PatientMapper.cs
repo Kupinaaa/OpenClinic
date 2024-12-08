@@ -18,7 +18,11 @@ public static class PatientMapper
             AddressLine = patient.AddressLine,
             DOB = patient.DOB,
             Gender = patient.Gender,
-            Race = new List<Race>(patient.Race)
+            Race = new List<Race>(patient.Race),
+            Balance = patient.Balance,
+            InsurancePlan = patient.InsurancePlan?.ToInsurancePlanDto(),
+            InsurancePlanId = patient.InsurancePlanId,
+            TotalPayThisYear = patient.TotalPayThisYear
         };
     }
 
@@ -30,7 +34,10 @@ public static class PatientMapper
             AddressLine = patientDto.AddressLine,
             DOB = patientDto.DOB,
             Gender = patientDto.Gender,
-            Race = new List<Race>(patientDto.Race)
+            Race = new List<Race>(patientDto.Race),
+            InsurancePlanId = patientDto.InsurancePlanId,
+            TotalPayThisYear = patientDto.TotalPayThisYear,
+            Balance = patientDto.Balance,
         };
     }
 
@@ -42,7 +49,10 @@ public static class PatientMapper
             AddressLine = patientDto.AddressLine,
             DOB = patientDto.DOB,
             Gender = patientDto.Gender,
-            Race = new List<Race>(patientDto.Race)
+            Race = new List<Race>(patientDto.Race),
+            InsurancePlanId = patientDto.InsurancePlanId,
+            TotalPayThisYear = patientDto.TotalPayThisYear,
+            Balance = patientDto.Balance,
         };;
     }
 }

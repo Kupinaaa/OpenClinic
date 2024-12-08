@@ -10,4 +10,5 @@ public class AppointmentUpdateRequestDto
     public DateTime DateTimeEnd { get; set; } = DateTime.MinValue;
     public int PhysicianId { get; set; } = 0;
     public int PatientId { get; set; } = 0;
+    public List<int> TreatmentOptionIds { get; set; } = new List<int>();
 }

@@ -67,6 +67,7 @@ public class AppointmentService : IAppointmentService
 
         Patient? patient = await _patientService.GetPatientDataById(createAppointmentDto.PatientId);
         if (patient == null) return null;
+        createAppointment.Patient = patient;
 
         createAppointment.Bill = new Bill
         {
@@ -120,19 +121,19 @@ public class AppointmentService : IAppointmentService
         return deletedAppointment;
     }
 
-    public async Task<List<AppointmentWithNavDto>> GetAllAppointments()
+    public async Task<List<AppointmentDto>> GetAllAppointments()
     {
         List<Appointment> appointments = await _appointmentRepository.GetAll();
-        List<AppointmentWithNavDto> appointmentDtos = appointments.Select(a => a.ToAppointmentWithNavDto()).ToList();
+        List<AppointmentDto> appointmentDtos = appointments.Select(a => a.ToAppointmentDto()).ToList();
         return appointmentDtos;
     }
 
-    public async Task<AppointmentWithNavDto?> GetAppointmentById(int id)
+    public async Task<AppointmentDto?> GetAppointmentById(int id)
     {
         Appointment? appointment = await _appointmentRepository.GetById(id);
         if (appointment == null) return null;
 
-        AppointmentWithNavDto appointmentDto = appointment.ToAppointmentWithNavDto();
+        AppointmentDto appointmentDto = appointment.ToAppointmentDto();
         return appointmentDto;
     }
 

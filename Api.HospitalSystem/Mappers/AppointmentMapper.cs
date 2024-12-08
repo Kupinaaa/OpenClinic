@@ -16,24 +16,12 @@ public static class AppointmentMapper
             DateTimeEnd = appointment.DateTimeEnd,
             Description = appointment.Description,
             PatientId = appointment.PatientId,
-            PhysicianId = appointment.PhysicianId
-        };
-    }
-
-    public static AppointmentWithNavDto ToAppointmentWithNavDto(this Appointment appointment)
-    {
-        return new AppointmentWithNavDto
-        {
-            Id = appointment.Id,
-            Title = appointment.Title,
-            DateTimeStart = appointment.DateTimeStart,
-            DateTimeEnd = appointment.DateTimeEnd,
-            Description = appointment.Description,
-            PatientId = appointment.PatientId,
             PhysicianId = appointment.PhysicianId,
             PhysicianNav = appointment.Physician.ToPhysicianDto(),
             PatientNav = appointment.Patient.ToPatientDto(),
-            AppointmentTreatmentNav = appointment.AppointmentTreatments.Select(t => t.ToAppointmentTreatmentDto()).ToList()
+            AppointmentTreatmentsNav = appointment.AppointmentTreatments.Select(t => t.ToAppointmentTreatmentDto()).ToList(),
+            BillId = appointment.BillId,
+            BillNav = appointment?.Bill?.ToBillDto()
         };
     }
 
