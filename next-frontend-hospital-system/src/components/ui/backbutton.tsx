@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./button";
 
 function BackButton({
@@ -9,8 +9,16 @@ function BackButton({
     className?: string;
 }>) {
     const router = useRouter();
+    const pathname = usePathname();
+
+    const goToParent = () => {
+        const parentPath =
+            pathname.substring(0, pathname.lastIndexOf("/")) || "/";
+        router.push(parentPath);
+    };
+
     return (
-        <Button className={className} onClick={() => router.back()}>
+        <Button className={className} onClick={goToParent}>
             {children}
         </Button>
     );

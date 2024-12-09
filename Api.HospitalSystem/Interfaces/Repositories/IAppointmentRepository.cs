@@ -8,7 +8,7 @@ public interface IAppointmentRepository
 {
     Task<List<Appointment>> GetAll();
     Task<Appointment?> GetById(int id);
-    Task<Appointment> Create(Appointment createAppointment);
+    Task<Appointment?> Create(Appointment createAppointment);
     Task<Appointment?> Update(int id, Appointment updateAppointment);
     Task<Appointment?> Delete(int id);
     Task<List<Appointment>> GetByPatientAndPhysicianId(int patientId, int physicianId);

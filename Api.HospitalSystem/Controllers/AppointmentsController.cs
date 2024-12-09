@@ -52,11 +52,11 @@ namespace Api.HospitalSystem.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AppointmentUpdateRequestDto updateRequestDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AppointmentCreateRequestDto updateRequestDto)
         {
-            AppointmentDto? updatedAppointment = await _appointmentService.UpdateAppointment(id, updateRequestDto);
-            if (updatedAppointment == null) return NotFound();
-            return Ok(updatedAppointment);
+            await _appointmentService.UpdateAppointment(id, updateRequestDto);
+            // if (updatedAppointment == null) return NotFound();
+            return Ok();
         }
         [HttpGet("physician/{physicianId}")]
         public async Task<IActionResult> GetPhysicianAppointments([FromRoute] int physicianId)

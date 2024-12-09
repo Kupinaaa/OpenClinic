@@ -17,8 +17,8 @@ public static class AppointmentMapper
             Description = appointment.Description,
             PatientId = appointment.PatientId,
             PhysicianId = appointment.PhysicianId,
-            PhysicianNav = appointment.Physician.ToPhysicianDto(),
-            PatientNav = appointment.Patient.ToPatientDto(),
+            PhysicianNav = appointment.Physician?.ToPhysicianDto(),
+            PatientNav = appointment.Patient?.ToPatientDto(),
             AppointmentTreatmentsNav = appointment.AppointmentTreatments.Select(t => t.ToAppointmentTreatmentDto()).ToList(),
             BillId = appointment.BillId,
             BillNav = appointment?.Bill?.ToBillDto()

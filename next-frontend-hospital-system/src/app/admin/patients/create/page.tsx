@@ -289,6 +289,7 @@ export default function MyForm() {
                                         {insurancePlans.map((insurance) => (
                                             <SelectItem
                                                 value={insurance.id.toString()}
+                                                key={insurance.id}
                                             >
                                                 {insurance.name}
                                             </SelectItem>

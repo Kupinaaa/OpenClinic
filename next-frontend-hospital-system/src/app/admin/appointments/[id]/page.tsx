@@ -64,6 +64,14 @@ async function displayAppointment({
                     <p className="text-gray-400 w-36">Total after insurance:</p>
                     <p className="">{appointmentDto.billNav.outOfPocket}</p>
                 </div>
+                <div className="flex">
+                    <p className="text-gray-400 w-36">Treatments</p>
+                    <p className="">
+                        {appointmentDto.appointmentTreatmentsNav
+                            .map((at) => at.treatment.name)
+                            .join(", ")}
+                    </p>
+                </div>
             </div>
             <div className="flex gap-2 mt-8">
                 <DeleteAppointmentButton id={id} />

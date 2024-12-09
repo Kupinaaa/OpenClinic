@@ -13,6 +13,7 @@ export interface AppointmentDto {
     patientNav: PatientDTO;
     physicianNav: PhysicianDto;
     billNav: BillDto;
+    appointmentTreatmentsNav: AppointmentTreatment[];
 }
 
 export interface BillDto {
@@ -25,6 +26,13 @@ export interface Treatment {
     id: number;
     name: string;
     price: number;
+}
+
+export interface AppointmentTreatment {
+    id: number;
+    appointmentId: number;
+    treatmentId: number;
+    treatment: Treatment;
 }
 
 export interface AppointmentWithNavDto {

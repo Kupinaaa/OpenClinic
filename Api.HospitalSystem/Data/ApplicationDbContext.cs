@@ -31,6 +31,7 @@ public class ApplicationDbContext : DbContext
             .HasOne(e => e.AppointmentNav)
             .WithOne(e => e.Bill)
             .HasForeignKey<Bill>(e => e.AppointmentId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
 
         modelBuilder.Entity<Appointment>()

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using Api.HospitalSystem.Data;
 using Api.HospitalSystem.Dtos;
 using Api.HospitalSystem.Dtos.AppointmentDtos;
@@ -106,8 +107,8 @@ public class AppointmentService : IAppointmentService
         createAppointment.Patient.Balance -= createAppointment.Bill.OutOfPocket;
 
 
-        Appointment createdAppointment = await _appointmentRepository.Create(createAppointment);
-        AppointmentDto createdAppointmentDto = createdAppointment.ToAppointmentDto();
+        Appointment? createdAppointment = await _appointmentRepository.Create(createAppointment);
+        AppointmentDto? createdAppointmentDto = createdAppointment?.ToAppointmentDto();
 
         return createdAppointmentDto;
     }
@@ -137,21 +138,11 @@ public class AppointmentService : IAppointmentService
         return appointmentDto;
     }
 
-    public async Task<AppointmentDto?> UpdateAppointment(int id, AppointmentUpdateRequestDto updateAppointmentDto)
+    public async Task<AppointmentDto?> UpdateAppointment(int id, AppointmentCreateRequestDto updateAppointmentDto)
     {
-        Appointment? appointmentToUpdate = await _appointmentRepository.GetById(id);
-        if (appointmentToUpdate == null) return null;
-
-        Appointment? updateAppointment = updateAppointmentDto.ToAppointment();
-
-        if (await CheckAppointmentTime(updateAppointment, id) == false) return null;
-
-        updateAppointment = await _appointmentRepository.Update(id, updateAppointment);
-        if (updateAppointment == null) return null;
-
-        AppointmentDto updatedAppointment = updateAppointment.ToAppointmentDto();
-
-        return updatedAppointment;
+        await DeleteAppointment(id);
+        AppointmentDto? updatedDto = await CreateAppointment(updateAppointmentDto);
+        return updatedDto;
     }
 
     public async Task<List<AppointmentDto>> GetPhysicianAppointments(int physicianId)

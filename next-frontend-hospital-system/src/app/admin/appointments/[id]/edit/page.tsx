@@ -43,8 +43,18 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { PatientDTO } from "@/types/api/patient";
 import { PhysicianDto } from "@/types/api/physician";
 import { Input } from "@/components/ui/input";
-import { AppointmentCreateDto, AppointmentDto } from "@/types/api/appointment";
+import {
+    AppointmentCreateDto,
+    AppointmentDto,
+    Treatment,
+} from "@/types/api/appointment";
 import { useParams, useRouter } from "next/navigation";
+import { MultiSelect } from "@/components/ui/multi-select";
+
+interface TreatmentKeyValue {
+    value: string;
+    label: string;
+}
 
 const formSchema = z.object({
     title: z.string().max(100),
@@ -54,6 +64,7 @@ const formSchema = z.object({
     appointmentDate: z.coerce.date(),
     dateTimeOfAppointment: z.string(),
     timeLengthOfAppointment: z.string(),
+    treatments: z.array(z.string()).nonempty("Please at least one item"),
 });
 
 export default function MyForm() {
@@ -61,6 +72,10 @@ export default function MyForm() {
     const [physicians, setPhysicians] = useState<PhysicianDto[]>([]);
     const [availability, setAvailability] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+    const [treatmentOptions, setTreatmentOptions] = useState<
+        TreatmentKeyValue[]
+    >([]);
 
     const params = useParams<{ id: string }>();
     const router = useRouter();
@@ -78,6 +93,23 @@ export default function MyForm() {
 
     const [debouncedPatientQuery, setDebouncedPatientQuery] = useState("");
     const [debouncedPhysicianQuery, setDebouncedPhysicianQuery] = useState("");
+
+    const fetchTreatments = async () => {
+        try {
+            const result = await fetch("http://localhost:5222/api/treatment");
+            if (!result.ok) throw new Error("Fetch failed");
+            const fetchedTreatments = (await result.json()) as Treatment[];
+            setTreatmentOptions(
+                fetchedTreatments.map((t) => ({
+                    value: t.id.toString(),
+                    label: t.name,
+                }))
+            );
+            console.log(treatmentOptions, fetchedTreatments);
+        } catch {
+            console.error("There was an error fetching patients");
+        }
+    };
 
     const fetchPatients = async (query: string) => {
         try {
@@ -123,29 +155,17 @@ export default function MyForm() {
 
     const setAppointmentData = async (updateId: number) => {
         try {
+            await fetchTreatments();
             const result = await fetch(
                 `http://localhost:5222/api/appointment/${updateId}`
             );
             if (!result.ok) throw Error(await result.json());
             const data = (await result.json()) as AppointmentDto;
 
-            const resultPatient = await fetch(
-                `http://localhost:5222/api/patient/${data.patientId}`
-            );
-            if (!result.ok) throw Error(await result.json());
-            const dataPatient = (await resultPatient.json()) as PatientDTO;
-
-            const resultPhysician = await fetch(
-                `http://localhost:5222/api/physician/${data.physicianId}`
-            );
-            if (!result.ok) throw Error(await result.json());
-            const dataPhysician =
-                (await resultPhysician.json()) as PhysicianDto;
-
             form.setValue("title", data.title);
             form.setValue("description", data.description);
-            form.setValue("physician", dataPhysician.name);
-            form.setValue("patient", dataPatient.name);
+            form.setValue("physician", data.physicianNav.name);
+            form.setValue("patient", data.patientNav.name);
             form.setValue("dateTimeOfAppointment", data.dateTimeStart);
             form.setValue("appointmentDate", new Date(data.dateTimeStart));
         } catch (e) {
@@ -212,6 +232,7 @@ export default function MyForm() {
                     new Date(values.dateTimeOfAppointment).getTime() +
                         parseInt(values.timeLengthOfAppointment) * 60000
                 ).toJSON(),
+                treatmentOptionIds: values.treatments,
             };
 
             setLoading(true);
@@ -233,9 +254,7 @@ export default function MyForm() {
 
             if (!result.ok) throw new Error(JSON.stringify(result));
 
-            const resData = (await result.json()) as AppointmentDto;
-
-            router.push(`/admin/appointments/${resData.id}`);
+            router.push(`/admin/appointments`);
         } catch (error) {
             console.error("Form submission error", error);
             toast.error("Failed to submit the form. Please try again.");
@@ -581,6 +600,25 @@ export default function MyForm() {
                         />
                     </div>
                 </div>
+                <FormField
+                    control={form.control}
+                    name="treatments"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Treatment(s)</FormLabel>
+                            <FormControl>
+                                <MultiSelect
+                                    options={treatmentOptions}
+                                    onValueChange={field.onChange}
+                                    defaultValue={[]}
+                                    variant={"default"}
+                                />
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <Button type="submit" disabled={loading}>
                     Submit
                 </Button>

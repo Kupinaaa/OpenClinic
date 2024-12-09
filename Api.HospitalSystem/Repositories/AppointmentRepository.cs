@@ -15,12 +15,19 @@ public class AppointmentRepository: IAppointmentRepository
         _context = context;
     }
 
-    public async Task<Appointment> Create(Appointment createAppointment)
+    public async Task<Appointment?> Create(Appointment createAppointment)
     {
         await _context.Appointments.AddAsync(createAppointment);
         await _context.SaveChangesAsync();
 
-        return createAppointment;
+        return await _context.Appointments
+            .Include(a => a.Patient)
+                .ThenInclude(at => at.InsurancePlan)
+            .Include(a => a.Physician)
+            .Include(a => a.AppointmentTreatments)
+                .ThenInclude(at => at.Treatment)
+            .Include(a => a.Bill)
+            .FirstOrDefaultAsync(a => a.Id == createAppointment.Id);
     }
 
     public async Task<Appointment?> Delete(int id)
@@ -140,17 +147,23 @@ public class AppointmentRepository: IAppointmentRepository
             .FirstOrDefaultAsync(a => a.Id == id);
         if (updateAppointment == null) return null;
 
+        if (updateAppointment.Bill != null) _context.Bills.Remove(updateAppointment.Bill);
+
+        updateAppointment.AppointmentTreatments.ForEach(at => _context.AppointmentTreatments.Remove(at));
+
         updateAppointment.Title = updateBody.Title;
         updateAppointment.DateTimeStart = updateBody.DateTimeStart;
         updateAppointment.DateTimeEnd = updateBody.DateTimeEnd;
         updateAppointment.Description = updateBody.Description;
-        updateAppointment.PatientId = updateBody.PatientId;
+        updateAppointment.Physician = updateBody.Physician;
+        updateAppointment.Patient = updateBody.Patient;
         updateAppointment.PhysicianId = updateBody.PhysicianId;
-        updateAppointment.BillId = updateBody.BillId;
         updateAppointment.AppointmentTreatments = updateBody.AppointmentTreatments;
+        updateAppointment.Bill = updateBody.Bill;
+
 
         await _context.SaveChangesAsync();
 
-        return updateAppointment;
+        return updateBody;
     }
 }
