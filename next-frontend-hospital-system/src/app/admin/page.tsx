@@ -25,6 +25,12 @@ function AdminMainPage() {
                     >
                         Physician Management
                     </Link>
+                    <Link
+                        href={"admin/insuranceplans"}
+                        className={buttonVariants({ variant: "default" })}
+                    >
+                        Insurance Plans
+                    </Link>
                 </div>
             </div>
         </div>

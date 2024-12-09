@@ -4,7 +4,7 @@ export interface PatientDTO {
     addressLine: string;
     dob: string;
     gender: string;
-    race: string[];
+    race: [string, ...string[]];
     insurancePlan: InsurancePlanDto;
 }
 
@@ -22,11 +22,19 @@ public class InsurancePlanDto
 
 export interface InsurancePlanDto {
     id: number;
-    name: number;
+    name: string;
     deductable: number;
     copay: number;
     coinsurancePercent: number;
-    OOPM: number;
+    oopm: number;
+}
+
+export interface InsurancePlanCreateDto {
+    name: string;
+    deductable: number;
+    copay: number;
+    coinsurancePercent: number;
+    oopm: number;
 }
 
 /*public enum Race {

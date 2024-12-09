@@ -31,6 +31,13 @@ public class InsurancePlanService : IInsurancePlanService
         return (await _repo.GetInsurancePlans()).Select(i => i.ToInsurancePlanDto()).ToList();
     }
 
+    public async Task<InsurancePlanDto?> GetById(int id)
+    {
+        InsurancePlan? insurancePlan = await _repo.GetById(id);
+        if (insurancePlan == null) return null;
+        return insurancePlan.ToInsurancePlanDto();
+    }
+
     public async Task<InsurancePlanDto?> UpdateInsurancePlanOption(int id, InsurancePlanCreateRequestDto insurancePlanUpdateRequest)
     {
         InsurancePlan? insurancePlanUpdate = insurancePlanUpdateRequest.ToInsurancePlan();

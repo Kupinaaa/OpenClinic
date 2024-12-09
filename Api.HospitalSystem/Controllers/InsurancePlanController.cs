@@ -21,20 +21,19 @@ namespace Api.HospitalSystem.Controllers
             List<InsurancePlanDto> insurancePlanDtos = await _service.GetInsurancePlanOptions();
             return Ok(insurancePlanDtos);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOne([FromRoute] int id)
+        {
+            InsurancePlanDto? insurancePlan = await _service.GetById(id);
+            if (insurancePlan == null) return NotFound();
+            return Ok(insurancePlan);
+        }
         
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] InsurancePlanCreateRequestDto insurancePlanCreateRequestDto)
         {
             InsurancePlanDto createdInsurancePlan = await _service.CreateTreatementOption(insurancePlanCreateRequestDto);
             return Ok(createdInsurancePlan);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
-        {
-            InsurancePlanDto? insurancePlanDto = await _service.DeleteInsurancePlanOption(id);
-            if (insurancePlanDto == null) return NotFound();
-            return NoContent();
         }
 
         [HttpPut("{id}")]

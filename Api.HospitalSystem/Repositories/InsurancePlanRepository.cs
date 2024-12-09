@@ -16,10 +16,15 @@ public class InsurancePlanRepository : IInsurancePlanRepository
 
     public async Task<InsurancePlan> CreateInsurancePlan(InsurancePlan insurancePlanCreateRequest)
     {
-        await _context.AddAsync(insurancePlanCreateRequest);
+        await _context.InsurancePlans.AddAsync(insurancePlanCreateRequest);
         await _context.SaveChangesAsync();
 
         return insurancePlanCreateRequest;
+    }
+    
+    public async Task<InsurancePlan?> GetById(int id)
+    {
+        return await _context.InsurancePlans.FirstOrDefaultAsync(i => i.Id == id);
     }
 
     public async Task<InsurancePlan?> DeleteInsurancePlan(int id)
