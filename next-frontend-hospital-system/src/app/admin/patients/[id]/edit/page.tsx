@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 
 import { MultiSelect } from "@/components/ui/multi-select";
-import { PatientDTO } from "@/types/api/patient";
+import { InsurancePlanDto, PatientDTO } from "@/types/api/patient";
 import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -42,6 +42,7 @@ const formSchema = z.object({
     dob: z.coerce.date(),
     gender: z.string().nonempty("Please select your gender"),
     race: z.array(z.string()).nonempty("Please at least one item"),
+    insurancePlanId: z.string().nonempty("Please select your insurance"),
 });
 
 export default function MyForm() {
@@ -73,6 +74,9 @@ export default function MyForm() {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [insurancePlans, setInsurancePlans] = useState<InsurancePlanDto[]>(
+        []
+    );
 
     const params = useParams<{ id: string }>();
 
@@ -84,6 +88,7 @@ export default function MyForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);
+            console.log(values);
             const result = await fetch(
                 `http://localhost:5222/api/patient/${params.id}`,
                 {
@@ -107,6 +112,20 @@ export default function MyForm() {
         }
     }
 
+    const fetchInsurances = async () => {
+        try {
+            const result = await fetch(
+                "http://localhost:5222/api/insuranceplan"
+            );
+            if (!result.ok) throw new Error("Fetch failed");
+            const fetchedInsurances =
+                (await result.json()) as InsurancePlanDto[];
+            setInsurancePlans(fetchedInsurances);
+        } catch {
+            console.error("There was an error fetching patients");
+        }
+    };
+
     const fetchValues = async () => {
         const resultPatient = await fetch(
             `http://localhost:5222/api/patient/${params.id}`
@@ -118,16 +137,22 @@ export default function MyForm() {
         form.setValue("addressLine", dataPatient.addressLine);
         form.setValue("dob", new Date(dataPatient.dob));
         form.setValue("gender", dataPatient.gender);
-        form.setValue("race", ["", ...dataPatient.race]);
+        form.setValue("race", dataPatient.race);
+        form.setValue(
+            "insurancePlanId",
+            dataPatient.insurancePlan.id.toString()
+        );
+        console.log(form.getValues());
     };
 
     const races = form.watch("race");
 
     useEffect(() => {
-        form.reset();
-        fetchValues().then(() => {
-            // console.log(form.getValues());
-        });
+        const fetchData = async () => {
+            await fetchInsurances();
+            await fetchValues();
+        };
+        fetchData();
     }, []);
 
     // useEffect(() => {
@@ -277,6 +302,39 @@ export default function MyForm() {
                             </FormItem>
                         )}
                     />
+
+                    <FormField
+                        control={form.control}
+                        name="insurancePlanId"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Insurance Plan</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {insurancePlans.map((insurance) => (
+                                            <SelectItem
+                                                value={insurance.id.toString()}
+                                                key={insurance.id}
+                                            >
+                                                {insurance.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     <Button type="submit" disabled={loading}>
                         Submit
                     </Button>

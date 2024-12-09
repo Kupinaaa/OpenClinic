@@ -42,7 +42,7 @@ const formSchema = z.object({
     dob: z.coerce.date(),
     gender: z.string().nonempty("Please select your gender"),
     race: z.array(z.string()).nonempty("Please at least one item"),
-    insurancePlanId: z.string().nonempty("Plesae select your insurance"),
+    insurancePlanId: z.string().nonempty("Please select your insurance"),
 });
 
 export default function MyForm() {

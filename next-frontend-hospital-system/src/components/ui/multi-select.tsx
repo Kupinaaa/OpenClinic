@@ -147,7 +147,7 @@ export const MultiSelect = React.forwardRef<
 
         React.useEffect(() => {
             if (selectedValues.length == 0) {
-                setSelectedValues(defaultValue.slice(1));
+                setSelectedValues(defaultValue);
             }
         }, [defaultValue]); // This is not very good code! But it works somehow
 
