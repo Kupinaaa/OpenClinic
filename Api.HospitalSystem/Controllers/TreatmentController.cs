@@ -23,6 +23,14 @@ namespace Api.HospitalSystem.Controllers
             List<TreatmentDto> treatmentDtos = await _service.GetTreatmentOptions();
             return Ok(treatmentDtos);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            TreatmentDto? treatmentDto = await _service.GetById(id);
+            if (treatmentDto == null) return NotFound();
+            return Ok(treatmentDto);
+        }
         
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TreatmentCreateRequestDto treatmentCreateRequestDto)

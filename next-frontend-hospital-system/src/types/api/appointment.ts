@@ -28,6 +28,11 @@ export interface Treatment {
     price: number;
 }
 
+export interface TreatmentCreate {
+    name: string;
+    price: number;
+}
+
 export interface AppointmentTreatment {
     id: number;
     appointmentId: number;

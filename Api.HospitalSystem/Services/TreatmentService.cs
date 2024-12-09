@@ -21,6 +21,13 @@ public class TreatmentService : ITreatmentService
         return treatmentCreate.ToTreatmentDto();
     }
 
+    public async Task <TreatmentDto?> GetById(int id)
+    {
+        Treatment? treatment = await _repo.GetById(id);
+        if (treatment == null) return null;
+        return treatment.ToTreatmentDto();
+    }
+
     public async Task<TreatmentDto?> DeleteTreatmentOption(int id)
     {
         Treatment? deletedTreatment = await _repo.DeleteTreatmentOption(id);

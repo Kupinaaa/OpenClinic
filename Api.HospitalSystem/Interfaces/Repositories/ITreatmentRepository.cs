@@ -7,6 +7,7 @@ public interface ITreatmentRepository
 {
     Task<List<Treatment>> GetTreatmentOptions();
     Task<Treatment> CreateTreatementOption(Treatment treatmentCreateRequest);
+    Task<Treatment?> GetById(int id);
     Task<Treatment?> DeleteTreatmentOption(int id);
     Task<Treatment?> UpdateTreatmentOption(int id, Treatment treatmentUpdateRequest);
     Task<List<Treatment>> GetByIds(List<int> ids);

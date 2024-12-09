@@ -20,6 +20,11 @@ public class TreatmentRepository : ITreatmentRepository
         return treatmentCreateRequest;
     }
 
+    public async Task<Treatment?> GetById(int id)
+    {
+        return await _context.Treatments.FirstOrDefaultAsync(t => t.Id == id);
+    }
+
     public async Task<Treatment?> DeleteTreatmentOption(int id)
     {
         var treatmentToDelete = await _context.Treatments.FirstOrDefaultAsync(t => t.Id == id);
