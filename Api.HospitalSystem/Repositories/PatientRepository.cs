@@ -55,6 +55,7 @@ public class PatientRepository : IPatientRepository
         patientModel.Gender = updatePatient.Gender;
         patientModel.Name = updatePatient.Name;
         patientModel.Race = updatePatient.Race;
+        patientModel.InsurancePlanId = updatePatient.InsurancePlanId;
 
         await _context.SaveChangesAsync();
         return patientModel;
